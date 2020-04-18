@@ -1,3 +1,11 @@
+-- [Note] id của các bảng đều là `auto_increment`
+
+
+-- [Desc] Lấy tiêu đề mới nhất từ bảng `news`
+-- [Function] getLatestTitleNews
+--     @see https://stackoverflow.com/questions/2770600/mysql-select-the-last-inserted-row-easiest-way/21683753
+
+
 -- [Desc] Kiểm tra nguồn tin tức
 -- [Function] getSourceId
 -- [param] source
