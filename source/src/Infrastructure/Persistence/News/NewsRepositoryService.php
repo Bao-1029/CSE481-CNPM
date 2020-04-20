@@ -9,9 +9,9 @@ use PDO;
 use PDOException;
 
 class NewsRepositoryService extends RepositoryService {
-    private const SELECT_QUERY = "CALL SelectNews (:offset, :limt)";
-    private const INSERT_QUERY = "CALL InsertNews (:title, :link, :source, :imgUri)";
-    private const GET_QUERY = "SELECT getLatestTitleNews()";
+    private const SELECT_QUERY = "CALL sp_select_news (:offset, :limt)";
+    private const INSERT_QUERY = "CALL sp_insert_news (:title, :link, :source, :imgUri)";
+    private const GET_QUERY = "SELECT f_get_latest_title_news()";
     private const COUNT_QUERY = "SELECT count(*) FROM news_detail";
 
     public function insertNews(String $title, String $link, String $source, String $imgUri): bool
