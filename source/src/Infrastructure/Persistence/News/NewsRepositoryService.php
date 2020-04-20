@@ -8,13 +8,13 @@ use App\Domain\RepositoryService;
 use PDO;
 use PDOException;
 
-class NewsRepositoryService extends RepositoryService{
-    private const SELECT_QUERY = "CALL SelectNews (:offset, :limt)";
-    private const INSERT_QUERY = "CALL InsertNews (:title, :link, :source, :imgUri)";
-    private const GET_QUERY = "SELECT getLatestTitleNews()";
+class NewsRepositoryService extends RepositoryService {
+    private const SELECT_QUERY = "CALL sp_select_news (:offset, :limt)";
+    private const INSERT_QUERY = "CALL sp_insert_news (:title, :link, :source, :imgUri)";
+    private const GET_QUERY = "SELECT f_get_latest_title_news()";
     private const COUNT_QUERY = "SELECT count(*) FROM news_detail";
 
-    protected function insertNews(String $title, String $link, String $source, String $imgUri): bool
+    public function insertNews(String $title, String $link, String $source, String $imgUri): bool
     {
         try {
             if ($stmt = $this->pdo->prepare(self::INSERT_QUERY)) {
@@ -32,7 +32,7 @@ class NewsRepositoryService extends RepositoryService{
         }
     }
 
-    protected function getLatestTitleNews(): String
+    public function getLatestTitleNews(): String
     {
         try {
             $result = $this->pdo->query(self::GET_QUERY);
@@ -42,7 +42,7 @@ class NewsRepositoryService extends RepositoryService{
         }
     }
 
-    protected function getTotalNumberOfNews(): int
+    public function getTotalNumberOfNews()
     {
         try {
             return $this->pdo->query(self::COUNT_QUERY);
@@ -51,7 +51,7 @@ class NewsRepositoryService extends RepositoryService{
         }
     }
 
-    protected function selectNews(int $offset, int $limt)
+    public function selectWithCond(int $offset, int $limt)
     {
         try {
             if ($stmt = $this->pdo->prepare(self::SELECT_QUERY)) {
