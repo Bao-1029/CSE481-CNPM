@@ -6,7 +6,7 @@ namespace App\Infrastructure\Persistence\News;
 use App\Domain\News\News;
 use App\Domain\News\NewsNotFoundException;
 use App\Domain\News\NewsRepository;
-use App\Utils\Ncov\CrawlGgNews;
+use App\Utils\Ncov\CrawlGoogleNews;
 use App\Utils\DateTime as DT;
 use DateTime;
 use Exception;
@@ -34,7 +34,7 @@ class InStorageNewsRepository extends NewsRepositoryService implements NewsRepos
         $oldTime = $oldTime->modify('+' . self::CONFIG['reloadTime']['limit'])->format('U');
         if ($oldTime < $now)
         {
-            $this->newsList = new CrawlGgNews();
+            $this->newsList = new CrawlGoogleNews();
             $this->insertCrawlData();
             $this->totalNumNews = $this->getTotalNumberOfNews();
             // Update data in config file
