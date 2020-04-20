@@ -9,12 +9,10 @@ use App\Domain\News\NewsRepository;
 use App\Utils\Ncov\CrawlGoogleNews;
 use App\Utils\DateTime as DT;
 use DateTime;
+use Psr\Container\ContainerInterface;
 use Exception;
 use OutOfRangeException;
 use WriteiniFile\WriteiniFile;
-
-define('PATH', $GLOBALS['storage']['news_path']);
-define('CONFIG', parse_ini_file(realpath($GLOBALS['storage']['config'])));
 
 class InStorageNewsRepository extends NewsRepositoryService implements NewsRepository {
     /**
@@ -23,22 +21,22 @@ class InStorageNewsRepository extends NewsRepositoryService implements NewsRepos
     private $newsList;
     private $parser;
     private $totalNumNews;
-    private const PATH = PATH;
-    private const CONFIG = CONFIG;
+    private static $config;
 
-    public function __construct() {
-        $this->totalNumNews = self::CONFIG['total']['num'];
+    public function __construct(ContainerInterface $c) {
+        static::$config = $c->get('storage');
+        $this->totalNumNews = static::$config['total']['num'];
         // Check time to Crawl data again
         $now = DT::getNow();
-        $oldTime = DateTime::createFromFormat('U', self::CONFIG['reloadTime']['last_reload_at']);
-        $oldTime = $oldTime->modify('+' . self::CONFIG['reloadTime']['limit'])->format('U');
+        $oldTime = DateTime::createFromFormat('U', static::$config['reloadTime']['last_reload_at']);
+        $oldTime = $oldTime->modify('+' . static::$config['reloadTime']['limit'])->format('U');
         if ($oldTime < $now)
         {
             $this->newsList = new CrawlGoogleNews();
             $this->insertCrawlData();
             $this->totalNumNews = $this->getTotalNumberOfNews();
             // Update data in config file
-            $file = new WriteiniFile(self::CONFIG);
+            $file = new WriteiniFile(static::$config);
             $file->update([
                     'reloadTime' => ['last_reload_at' => DT::getNow()]
                 ])->update([
@@ -67,7 +65,7 @@ class InStorageNewsRepository extends NewsRepositoryService implements NewsRepos
     public function getHeadlines(): array
     {
         try {
-            return $this->selectNews(0, self::CONFIG['headLines']['limit']);
+            return $this->selectNews(0, static::$config['headLines']['limit']);
         } catch (Exception $e) {
             throw new NewsNotFoundException("Error Processing Request", 1);
         }
@@ -89,10 +87,9 @@ class InStorageNewsRepository extends NewsRepositoryService implements NewsRepos
     public function getNewsByPagiation(int $num): array
     {
         try {
-            $offset = ($this->totalNumNews - self::CONFIG['headLines']['limit']) - self::CONFIG['newsPagination']['limit'];
-            return $this->selectNews($offset, self::CONFIG['newsPagination']['limit'])
-        }
-        catch (OutOfRangeException $e) {
+            $offset = ($this->totalNumNews - static::$config['headLines']['limit']) - static::$config['newsPagination']['limit'];
+            return $this->selectNews($offset, static::$config['newsPagination']['limit']);
+        } catch (OutOfRangeException $e) {
             throw new NewsNotFoundException("Not Found!", 1);
         }
         catch (Exception $e) {

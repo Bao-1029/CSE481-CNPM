@@ -50,8 +50,6 @@ $routes($app);
 
 /** @var bool $displayErrorDetails */
 $displayErrorDetails = $container->get('settings')['displayErrorDetails'];
-$GLOBALS['storage']['news_path'] = $container->get('storage')['news_path'];
-$GLOBALS['storage']['config'] = $container->get('storage')['config'];
 
 // Create Request object from globals
 $serverRequestCreator = ServerRequestCreatorFactory::create();
