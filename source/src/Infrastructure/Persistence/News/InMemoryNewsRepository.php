@@ -7,38 +7,42 @@ use App\Domain\News\News;
 use App\Domain\News\NewsNotFoundException;
 use App\Domain\News\NewsRepository;
 use App\Utils\Ncov\CrawlGoogleNews;
-use App\Utils\DateTime as DT;
+use PDO;
 use DateTime;
+use DateTimeZone;
 use Psr\Container\ContainerInterface;
 use Exception;
 use OutOfRangeException;
+use WriteiniFile\ReadiniFile;
 use WriteiniFile\WriteiniFile;
 
-class InStorageNewsRepository extends NewsRepositoryService implements NewsRepository {
+class InMemoryNewsRepository implements NewsRepository {
     /**
      * @var News[]
      */
     private $newsList;
-    private $parser;
+    private $service;
     private $totalNumNews;
     private static $config;
 
-    public function __construct(ContainerInterface $c) {
-        static::$config = $c->get('storage');
+    public function __construct(ContainerInterface $c, PDO $pdo) {
+        $this->service = new NewsRepositoryService($pdo);
+
+        static::$config = ReadiniFile::get($c->get('storage')['config']);
         $this->totalNumNews = static::$config['total']['num'];
         // Check time to Crawl data again
-        $now = DT::getNow();
-        $oldTime = DateTime::createFromFormat('U', static::$config['reloadTime']['last_reload_at']);
-        $oldTime = $oldTime->modify('+' . static::$config['reloadTime']['limit'])->format('U');
+        $now = new DateTime('now', new DateTimeZone('Asia/Ho_Chi_Minh'));
+        $oldTime = new DateTime(static::$config['reloadTime']['last_reload_at'], new DateTimeZone('Asia/Ho_Chi_Minh'));
         if ($oldTime < $now)
         {
             $this->newsList = new CrawlGoogleNews();
             $this->insertCrawlData();
-            $this->totalNumNews = $this->getTotalNumberOfNews();
+            $this->totalNumNews = $this->service->getTotalNumberOfNews();
             // Update data in config file
+            $now = new DateTime('now', new DateTimeZone('Asia/Ho_Chi_Minh'));
             $file = new WriteiniFile(static::$config);
             $file->update([
-                    'reloadTime' => ['last_reload_at' => DT::getNow()]
+                    'reloadTime' => ['last_reload_at' => $now->format('Y-m-d H:i:s')]
                 ])->update([
                     'total' => ['num' => $this->totalNumNews]
                 ])->write();
@@ -65,7 +69,7 @@ class InStorageNewsRepository extends NewsRepositoryService implements NewsRepos
     public function getHeadlines(): array
     {
         try {
-            return $this->selectNews(0, static::$config['headLines']['limit']);
+            return $this->service->selectWithCond(0, static::$config['headLines']['limit']);
         } catch (Exception $e) {
             throw new NewsNotFoundException("Error Processing Request", 1);
         }
@@ -88,7 +92,7 @@ class InStorageNewsRepository extends NewsRepositoryService implements NewsRepos
     {
         try {
             $offset = ($this->totalNumNews - static::$config['headLines']['limit']) - static::$config['newsPagination']['limit'];
-            return $this->selectNews($offset, static::$config['newsPagination']['limit']);
+            return $this->service->selectWithCond($offset, static::$config['newsPagination']['limit']);
         } catch (OutOfRangeException $e) {
             throw new NewsNotFoundException("Not Found!", 1);
         }
@@ -106,10 +110,10 @@ class InStorageNewsRepository extends NewsRepositoryService implements NewsRepos
     private function insertCrawlData()
     {
         try {
-            $lastTitle = $this->getLatestTitleNews();
+            $lastTitle = $this->service->getLatestTitleNews();
             foreach ($this->newsList as $key => $value) {
                 if ($value->title != $lastTitle)
-                    if (!$this->insertNews(
+                    if (!$this->service->insertNews(
                         $value->title,
                         $value->link,
                         $value->source,

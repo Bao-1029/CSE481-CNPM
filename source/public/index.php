@@ -75,7 +75,7 @@ $response = $app->handle($request);
 $responseEmitter = new ResponseEmitter();
 $responseEmitter->emit($response);
 
-
+/*
 use Goutte\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -83,7 +83,7 @@ $crawler;
 $result = [];
 
 $client = new Client();
-/*
+
 $crawler = $client->request('GET', 'https://news.google.com/topics/CAAqKAgKIiJDQkFTRXdvTkwyY3ZNVEZxT0dzelpHZG9aeElDZG1rb0FBUAE?hl=vi&gl=VN&ceid=VN%3Avi');
 $baseHref = $crawler->getBaseHref();
 
@@ -105,11 +105,11 @@ $crawler->filter('.xrnccd .Cc0Z5d')->each(function (Crawler $node) {
 // var_dump($crawler);
 var_dump($result); */
 
-
+/* 
 $crawler = $client->request('GET', 'https://ncov.moh.gov.vn/dong-thoi-gian', [], [], ['verify' => 'false']);
 $this->crawler->filter('.timeline-sec .timeline-content')->each(function (Crawler $node) {
 	array_push($this->result, $node->text());
 });
-var_dump($result);
+var_dump($result); */
 
 ?>
