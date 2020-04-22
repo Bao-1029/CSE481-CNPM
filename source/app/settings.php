@@ -25,5 +25,15 @@ return function (ContainerBuilder $containerBuilder) {
             'user' => 'root',
             'password' => ''
         ],
+        'resources' => [
+            'template' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../resources/templates',
+            'views' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../resources/views',
+        ],
+        'page_meta_data' => [
+            'home' => [
+                'title' => 'Trang chủ - Thống kê | Việt Nam - COVID-19',
+                'page' => 'home',
+            ],
+        ]
     ]);
 };
