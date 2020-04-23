@@ -7,7 +7,6 @@ use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use PDO;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
@@ -28,14 +27,11 @@ return function (ContainerBuilder $containerBuilder) {
         PDO::class => function (ContainerInterface $c) {
             $settings = $c->get('database');
 
-            $pdo = new PDO(`mysql:host S{$settings['host']}; dbname = ${$settings['dbname']} `,
+            $pdo = new PDO("mysql:host " . $settings['host'] . "; dbname = " . $settings['dbname'],
                         $settings['user'], $settings['password']);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_CLASS);
             return $pdo;
-        },
-        'cache' => function (ContainerInterface $c) {
-            return new \Slim\HttpCache\CacheProvider();
         },
     ]);
 };

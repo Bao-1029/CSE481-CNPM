@@ -21,9 +21,9 @@ return function (ContainerBuilder $containerBuilder) {
         ],
         'database' => [
             'host' => 'localhost',
-            'dbname' => '',
+            'dbname' => 'cnpm_coronavirus',
             'user' => 'root',
-            'password' => 'cnpm_coronavirus'
+            'password' => ''
         ],
     ]);
 };

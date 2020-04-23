@@ -50,8 +50,6 @@ $routes($app);
 
 /** @var bool $displayErrorDetails */
 $displayErrorDetails = $container->get('settings')['displayErrorDetails'];
-$GLOBALS['storage']['news_path'] = $container->get('storage')['news_path'];
-$GLOBALS['storage']['config'] = $container->get('storage')['config'];
 
 // Create Request object from globals
 $serverRequestCreator = ServerRequestCreatorFactory::create();
@@ -64,6 +62,8 @@ $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
 // Create Shutdown Handler
 $shutdownHandler = new ShutdownHandler($request, $errorHandler, $displayErrorDetails);
 register_shutdown_function($shutdownHandler);
+
+$app->add(\App\Application\Middleware\CorsMiddleware::class);
 
 // Add Routing Middleware
 $app->addRoutingMiddleware();
@@ -85,8 +85,8 @@ $crawler;
 $result = [];
 
 $client = new Client();
-/*
-$crawler = $client->request('GET', 'https://news.google.com/topics/CAAqKAgKIiJDQkFTRXdvTkwyY3ZNVEZxT0dzelpHZG9aeElDZG1rb0FBUAE?hl=vi&gl=VN&ceid=VN%3Avi');
+
+/* $crawler = $client->request('GET', 'https://news.google.com/topics/CAAqKAgKIiJDQkFTRXdvTkwyY3ZNVEZtY2pFMWRERTFhQklDZG1rb0FBUAE?hl=vi&gl=VN&ceid=VN%3Avi');
 $baseHref = $crawler->getBaseHref();
 
 $crawler->filter('.xrnccd .Cc0Z5d')->each(function (Crawler $node) {
