@@ -22,7 +22,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class CrawlGoogleNews extends CrawlData {
     public function __construct() {
-        $this->href = 'https://news.google.com/topics/CAAqKAgKIiJDQkFTRXdvTkwyY3ZNVEZxT0dzelpHZG9aeElDZG1rb0FBUAE?hl=vi&gl=VN&ceid=VN%3Avi';
+        $this->href = 'https://news.google.com/topics/CAAqKAgKIiJDQkFTRXdvTkwyY3ZNVEZtY2pFMWRERTFhQklDZG1rb0FBUAE?hl=vi&gl=VN&ceid=VN%3Avi';
         parent::__construct();
     }
 
