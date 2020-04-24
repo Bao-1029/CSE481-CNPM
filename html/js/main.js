@@ -1,11 +1,10 @@
-function closeMenu() {
+function closeMenu(){
     var x = document.getElementById("menu");
     x.style.width = "0px";
 }
-
 function hienThi() {
-    var x = document.getElementById("menu");
-    x.style.width = "100%";
+ var x = document.getElementById("menu");
+ x.style.width = "100%";
 
 }
 

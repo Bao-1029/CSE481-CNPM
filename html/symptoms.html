@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
-        integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/symptoms.css">
+    <link rel="stylesheet" href="css-symptoms/symptoms.css">
+    <script src="js/main.js"></script>
 </head>
 
 <body>
@@ -18,11 +17,12 @@
                  transform="translate(-1.869 -1.869)" fill="#B77086"/> </svg> <span>Coronavirus</span>
         </div>
         <div class="header__menu">
-            <i class="fas fa-bars header__icon-bar" onclick="hienThi()"></i>
+            <svg class="header__icon-bar" onclick="hienThi()" fill="#003560" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 6h-24v-4h24v4zm0 4h-24v4h24v-4zm0 8h-24v4h24v-4z"/></svg>
             <ul class="header__menu-content" id="menu">
-                <i class="fas fa-window-close header__close-menu" id="close-menu" onclick="closeMenu()"></i>
+               
+                <svg class="header__close-menu" id="close-menu" onclick="closeMenu()" xmlns="http://www.w3.org/2000/svg" fill="red"  width="26" height="26" viewBox="0 0 18 18"><path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"/></svg>
                 <li class="header__menu-list header__menu-list--active"><a class="header__menu-text" href="">Trang chủ</a></li>
-                <li class="header__menu-list"><a class="header__menu-text" href="news.html">Tin Tức</a></li>
+                <li class="header__menu-list"><a class="header__menu-text" href="">Tin Tức</a></li>
                 <li class="header__menu-list"><a class="header__menu-text" href="">Biểu hiện bệnh</a></li>
                 <li class="header__menu-list"><a class="header__menu-text" href="">Cách phòng tránh</a></li>
                 <li class="header__menu-list"><a class="header__menu-text" href="">Trắc nghiệm</a></li>
@@ -437,27 +437,7 @@
     <footer class="footer">
         <p>A project by 59Th2 | Thuy Loi University</p>
     </footer>
-    <script>
-     function closeMenu(){
-            var x = document.getElementById("menu");
-            x.style.width = "0px";
-        }
-        function hienThi() {
-         var x = document.getElementById("menu");
-         x.style.width = "100%";
-      
-       }
-
-        function nameHospital() {
-            var x = document.getElementById("content-hotline");
-            x.style.width = "450px";
-        }
-
-        function closeHospital() {
-            var x = document.getElementById("content-hotline");
-            x.style.width = "0px";
-        }
-    </script>
+   
 </body>
 
 </html>

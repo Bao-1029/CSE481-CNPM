@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css-news/news.css">
+    <link rel="stylesheet" href="css-loading/loading.css">
     <script src="js/main.js"></script>
 </head>
-
 <body>
     <header class="header">
         <div class="header__logo">
@@ -30,73 +28,45 @@
         </div>
     </header>
     <main class="main">
-        <div class="main__news">
-            <h2 class="main__title">Bài viết hàng đầu</h2>
-            <div class="main__featured-news">
-                <a href="">
-                    <img src="img/covid1.jpg" alt="" >
-                </a>
-                <p><a href="">Las unde laborum voluptatum consequatur reiciendis cum expedita eligendi non in iusto itaque aut assumenda, esse maiores?</a></p>
-                <span class="main__source">Bộ y tế</span>
-            </div>
-            <div class="main__related-news">
-                <div class="main__related-content">
-                    <p><a href="">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam, repudiandae eaque
-                          ulla.</a></p>
-                    <span class="main__source">Bộ y tế</span>
-                </div>
-                <div class="main__related-content">
-                    <p><a href="">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam, repudiandae eaque
-                           
-                            autem inventore id quasi qui nulla.</a></p>
-                    <span class="main__source">Bộ y tế</span>
-                </div>
-            </div>
+        <div class="main__loading"></div>
+        <span class="main__text-loading">Đang tải...</span>
+        <div class="main__contact">
+            <span class="main__contact-title">HotLine</span>
+            <div class="main__contact-phone"><svg  onclick="nameHospital()" id="icon-phone" fill="white" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24"><path d="M20 22.621l-3.521-6.795c-.008.004-1.974.97-2.064 1.011-2.24 1.086-6.799-7.82-4.609-8.994l2.083-1.026-3.493-6.817-2.106 1.039c-7.202 3.755 4.233 25.982 11.6 22.615.121-.055 2.102-1.029 2.11-1.033z"/></svg></div>
+            <div class=" main__contact-mess"><svg width="34" height="34" xmlns="http://www.w3.org/2000/svg" fill-rule="" fill="white" clip-rule="evenodd"><path d="M12 0c-6.627 0-12 4.975-12 11.111 0 3.497 1.745 6.616 4.472 8.652v4.237l4.086-2.242c1.09.301 2.246.464 3.442.464 6.627 0 12-4.974 12-11.111 0-6.136-5.373-11.111-12-11.111zm1.193 14.963l-3.056-3.259-5.963 3.259 6.559-6.963 3.13 3.259 5.889-3.259-6.559 6.963z"/></svg></div>
         </div>
-        <div class="main__recent-news">
-            <div class="main__recent-content">
-                <div class="main__recent-img">
-                    <a href=""><img src="img/covid1.jpg" alt=""></a>
-                </div>
-                <div class="main__recent-text">
-                    <p><a href="">Lorates quae fugit commodi! Minus quaerat eius distinctio ut amet cupiditate nesciunt ad saepe fugiat non, perspiciatis error quisquam expedita?</a></p>
-                    <span class="main__source">Bộ y tế</span>
-                </div>
-            </div>
-            <div class="main__recent-content">
-                <div class="main__recent-img">
-                    <a href="" ><img src="img/covid1.jpg" alt=""></a>
-                </div>
-                <div class="main__recent-text">
-                    <p><a href="">Lorem ipsum dolor sit,at non, perspiciatis error quisquam expedita?</a></p>
-                    <span class="main__source">Bộ y tế</span>
-                </div>
-            </div>
-            <div class="main__recent-content">
-                <div class="main__recent-img">
-                    <a href=""><img src="img/covid1.jpg" alt=""></a>
-                </div>
-                <div class="main__recent-text">
-                    <p><a href="">Lorem ipsum doloptates quae fugit commodi! Minus quaerat eius distinctio ut amet cupiditate nesciunt ad saepe fugiat non, perspiciatis error quisquam expedita?</a></p>
-                    <span class="main__source">Bộ y tế</span>
-                </div>
-            </div>
-            <div class="main__recent-content">
-                <div class="main__recent-img">
-                    <a href=""><img src="img/covid1.jpg" alt=""></a>
-                </div>
-                <div class="main__recent-text">
-                    <p><a href="">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iusto quibusdam voluptates quae fugit commodi! Minus quaerat eius distinctio ut amet cupidita?</a></p>
-                    <span class="main__source">Bộ y tế</span>
-                </div>
-            </div>
-            
-        </div>
-        <button class="main__more" ><span>Xem thêm</span></button>
     </main>
     <footer class="footer">
         <p>A project by 59Th2 | Thuy Loi University</p>
     </footer>
+    <script>
+        function closeMenu(){
+            var x = document.getElementById("menu");
+            x.style.width = "0px";
+        }
+        function hienThi() {
+         var x = document.getElementById("menu");
+         x.style.width = "100%";
+      
+       }
+       function nameHospital(){
+           var x = document.getElementById("content-hotline");
+           x.style.width = "450px";
+       }
+       function closeHospital(){
+        var x = document.getElementById("content-hotline");
+        x.style.width = "0px";
+       }
+       
+      
+    </script>
 </body>
-
 </html>
+<!--   function nameHospital(){
+           var x = document.getElementById("content-hotline");
+           x.style.width = "450px";
+       }
+       function closeHospital(){
+        var x = document.getElementById("content-hotline");
+        x.style.width = "0px";
+       }-->
