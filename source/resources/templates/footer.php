@@ -3,3 +3,10 @@
 </footer>
 
 <script src="js/common.js" type="module"></script>
+<?php switch ($page):
+    case 'home': ?>
+        <script src="js/statistics.js" type="module"></script>
+    <?php
+    case 'news': ?>
+        <script src="js/news.js" type="module"></script>
+<?php endswitch; ?>

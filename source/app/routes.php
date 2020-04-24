@@ -5,6 +5,9 @@ use App\Application\Actions\News\HeadlinesAction;
 use App\Application\Actions\News\NewsPaginationAction;
 use App\Application\Actions\News\AllNewsAction;
 use App\Application\Actions\Page\HomePageAction;
+use App\Application\Actions\Page\NewsPageAction;
+use App\Application\Actions\Page\SymptonsPageAction;
+use App\Application\Actions\Page\PrecautionPageAction;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -17,10 +20,12 @@ return function (App $app) {
         $response->getBody()->write('Hello world!');
         return $response;
     }); */
-    $app->group('/[page]', function (Group $group) {
+    $app->group('/page', function (Group $group) {
         $group->get('', HomePageAction::class);
         $group->get('trang-chu', HomePageAction::class);
-        $group->get('tin-tuc', HomePageAction::class);
+        $group->get('tin-tuc', NewsPageAction::class);
+        $group->get('bieu-hien-benh', SymptonsPageAction::class);
+        $group->get('cach-phong-tranh', PrecautionPageAction::class);
     });
 
     $app->group('/api/news', function (Group $group) {

@@ -9,6 +9,8 @@
     <?= $content; ?>
 
     <?= $this->fetch('footer.php'); ?>
+    <?= $this->fetch('contact.php'); ?>
+    <?= $this->fetch('hotlines.php'); ?>
 </body>
 
 </html>

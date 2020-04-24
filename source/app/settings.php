@@ -31,8 +31,20 @@ return function (ContainerBuilder $containerBuilder) {
         ],
         'page_meta_data' => [
             'home' => [
-                'title' => 'Trang chủ - Thống kê | Việt Nam - COVID-19',
+                'title' => 'Trang chủ - Thống kê | Việt Nam - Coronavirus',
                 'page' => 'home',
+            ],
+            'news' => [
+                'title' => 'Tin tức | Việt Nam - Coronavirus',
+                'page' => 'news',
+            ],
+            'symptons' => [
+                'title' => 'Biểu hiện bệnh | Việt Nam - Coronavirus',
+                'page' => 'symptons',
+            ],
+            'precaution' => [
+                'title' => 'Cách phòng tránh| Việt Nam - Coronavirus',
+                'page' => 'precaution',
             ],
         ]
     ]);
