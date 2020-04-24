@@ -11,22 +11,40 @@ use App\Application\Actions\Page\PrecautionPageAction;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Container\ContainerInterface;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 use Slim\Exception\HttpNotFoundException;
+use Slim\Views\PhpRenderer;
+
 
 return function (App $app) {
     /* $app->get('/', function (Request $request, Response $response) {
         $response->getBody()->write('Hello world!');
         return $response;
     }); */
-    $app->group('/page', function (Group $group) {
-        $group->get('', HomePageAction::class);
+    $app->group('/', function (Group $group) {
         $group->get('trang-chu', HomePageAction::class);
         $group->get('tin-tuc', NewsPageAction::class);
         $group->get('bieu-hien-benh', SymptonsPageAction::class);
         $group->get('cach-phong-tranh', PrecautionPageAction::class);
+        $group->get('', HomePageAction::class);
     });
+   /*  $app->group('/page', function (Group $group) {
+        $group->get('/', function (Request $request, Response $response) {
+            $path_to_temp = $c->get('resources')['template'];
+            $path_to_view = $c->get('resources')['views'];
+            $renderer = new PhpRenderer();
+            $renderer->setTemplatePath($path_to_temp);
+            $renderer->setLayout('layout.php');
+            $renderer->setTemplatePath($path_to_view);
+            return $renderer->render($response, 'loading_view.php', $this->meta['home']);
+        });
+        $group->get('/trang-chu', HomePageAction::class);
+        $group->get('/tin-tuc', NewsPageAction::class);
+        $group->get('/bieu-hien-benh', SymptonsPageAction::class);
+        $group->get('/cach-phong-tranh', PrecautionPageAction::class);
+    }); */
 
     $app->group('/api/news', function (Group $group) {
         /**

@@ -16,7 +16,7 @@ class SymptonsPageAction extends PageAction
     protected function action(): Response
     {
         try {
-            return $this->renderer->render(new Response(), 'symptons.php', $this->meta['symptons']);
+            return $this->renderer->render($this->response, 'symptons.php', $this->meta['symptons']);
         } catch (RuntimeException $e) {
             $this->logger->error('Template might not exist\nError: ' . $e->getMessage());
         } catch (InvalidArgumentException $e) {

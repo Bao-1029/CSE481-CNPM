@@ -10,10 +10,10 @@
 
             <svg class="header__close-menu" id="close-menu" onclick="closeMenu()" xmlns="http://www.w3.org/2000/svg" fill="red" width="26" height="26" viewBox="0 0 18 18">
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" /></svg>
-            <li class="header__menu-list <?= $page = 'home' ? 'header__menu-list--active' : '' ?>"><a class="header__menu-text" href="trang-chu">Trang chủ</a></li>
-            <li class="header__menu-list <?= $page = 'news' ? 'header__menu-list--active' : '' ?>"><a class="header__menu-text" href="tin-tuc">Tin Tức</a></li>
-            <li class="header__menu-list <?= $page = 'symptons' ? 'header__menu-list--active' : '' ?>"><a class="header__menu-text" href="bieu-hien-benh">Biểu hiện bệnh</a></li>
-            <li class="header__menu-list <?= $page = 'precaution' ? 'header__menu-list--active' : '' ?>"><a class="header__menu-text" href="cach-phong-tranh">Cách phòng tránh</a></li>
+            <li class="header__menu-list <?= $page == 'home' ? 'header__menu-list--active' : '' ?>"><a class="header__menu-text" href="trang-chu">Trang chủ</a></li>
+            <li class="header__menu-list <?= $page == 'news' ? 'header__menu-list--active' : '' ?>"><a class="header__menu-text" href="tin-tuc">Tin Tức</a></li>
+            <li class="header__menu-list <?= $page == 'symptons' ? 'header__menu-list--active' : '' ?>"><a class="header__menu-text" href="bieu-hien-benh">Biểu hiện bệnh</a></li>
+            <li class="header__menu-list <?= $page == 'precaution' ? 'header__menu-list--active' : '' ?>"><a class="header__menu-text" href="cach-phong-tranh">Cách phòng tránh</a></li>
             <li class="header__menu-list"><a class="header__menu-text" href="">Trắc nghiệm</a></li>
         </ul>
     </div>

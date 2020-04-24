@@ -16,7 +16,7 @@ class PrecautionPageAction extends PageAction
     protected function action(): Response
     {
         try {
-            return $this->renderer->render(new Response(), 'precaution.php', $this->meta['precaution']);
+            return $this->renderer->render($this->response, 'precaution.php', $this->meta['precaution']);
         } catch (RuntimeException $e) {
             $this->logger->error('Template might not exist\nError: ' . $e->getMessage());
         } catch (InvalidArgumentException $e) {

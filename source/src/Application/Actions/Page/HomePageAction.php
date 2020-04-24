@@ -13,7 +13,7 @@ class HomePageAction extends PageAction {
      */
     protected function action(): Response {
         try {
-            return $this->renderer->render(new Response(), 'loading_view.php', $this->meta['home']);
+            return $this->renderer->render($this->response, 'loading_view.php', $this->meta['home']);
         } catch (RuntimeException $e) {
             $this->logger->error('Template might not exist\nError: ' . $e->getMessage());
         } catch (InvalidArgumentException $e) {
