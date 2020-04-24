@@ -17,7 +17,6 @@ namespace App\Utils\Ncov;
  */
 
 use App\Utils\CrawlData;
-use Goutte\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
 class CrawlGoogleNews extends CrawlData {
@@ -29,14 +28,18 @@ class CrawlGoogleNews extends CrawlData {
     public function extractData()
     {
         $this->crawler->filter('.xrnccd .Cc0Z5d')->each(function (Crawler $node) {
+            $previous = $node->previousAll();
             $children = $node->children();
             $title = $children->children('.DY5T1d')->text();
             $link = $this->baseHref . substr($children->children('.DY5T1d')->attr('href'), 2);
             $source = $children->children('[jsname="Hn1wIf"] .wEwyrc')->text();
+            $img = $previous->getNode(0) ? $previous->children()->children('img.QwxBBf') : null;
+            $imgUri = $img ? $img->attr('src') : '';
             $item = array(
                 'title' => $title,
                 'link'  => $link,
-                'source' => $source
+                'source' => $source,
+                'imgUri' => $imgUri
             );
             array_push($this->result, $item);
         });

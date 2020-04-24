@@ -26,27 +26,33 @@ class InMemoryNewsRepository implements NewsRepository {
     private static $config;
 
     public function __construct(ContainerInterface $c, PDO $pdo) {
-        $this->service = new NewsRepositoryService($pdo);
+        $this->service = new NewsRepositoryService($pdo, $c->get('database')['dbname']);
 
-        static::$config = ReadiniFile::get($c->get('storage')['config']);
+        $pathIni = $c->get('storage')['config'];
+        static::$config = ReadiniFile::get($pathIni);
         $this->totalNumNews = static::$config['total']['num'];
         // Check time to Crawl data again
         $now = new DateTime('now', new DateTimeZone('Asia/Ho_Chi_Minh'));
         $oldTime = new DateTime(static::$config['reloadTime']['last_reload_at'], new DateTimeZone('Asia/Ho_Chi_Minh'));
         if ($oldTime < $now)
         {
-            $this->newsList = new CrawlGoogleNews();
+            $crawler = new CrawlGoogleNews();
+            $this->newsList = $crawler->result;
             $this->insertCrawlData();
             $this->totalNumNews = $this->service->getTotalNumberOfNews();
             // Update data in config file
             $now = new DateTime('now', new DateTimeZone('Asia/Ho_Chi_Minh'));
-            $file = new WriteiniFile(static::$config);
+            $file = new WriteiniFile($pathIni);
             $file->update([
                     'reloadTime' => ['last_reload_at' => $now->format('Y-m-d H:i:s')]
                 ])->update([
                     'total' => ['num' => $this->totalNumNews]
                 ])->write();
+
+            unset($crawler);
         }
+
+        unset($pathIni);
     }
    
     /**
@@ -69,7 +75,7 @@ class InMemoryNewsRepository implements NewsRepository {
     public function getHeadlines(): array
     {
         try {
-            return $this->service->selectWithCond(0, static::$config['headLines']['limit']);
+            return $this->service->selectWithCond(0, (int) static::$config['headLines']['limit']);
         } catch (Exception $e) {
             throw new NewsNotFoundException("Error Processing Request", 1);
         }
@@ -92,7 +98,7 @@ class InMemoryNewsRepository implements NewsRepository {
     {
         try {
             $offset = ($this->totalNumNews - static::$config['headLines']['limit']) - static::$config['newsPagination']['limit'];
-            return $this->service->selectWithCond($offset, static::$config['newsPagination']['limit']);
+            return $this->service->selectWithCond((int) $offset, (int) static::$config['newsPagination']['limit']);
         } catch (OutOfRangeException $e) {
             throw new NewsNotFoundException("Not Found!", 1);
         }
@@ -112,12 +118,12 @@ class InMemoryNewsRepository implements NewsRepository {
         try {
             $lastTitle = $this->service->getLatestTitleNews();
             foreach ($this->newsList as $key => $value) {
-                if ($value->title != $lastTitle)
+                if ($value['title'] != $lastTitle)
                     if (!$this->service->insertNews(
-                        $value->title,
-                        $value->link,
-                        $value->source,
-                        $value->imgUri
+                        $value['title'],
+                        $value['link'],
+                        $value['source'],
+                        $value['imgUri']
                     ))
                         break;
                     else

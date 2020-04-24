@@ -21,9 +21,32 @@ return function (ContainerBuilder $containerBuilder) {
         ],
         'database' => [
             'host' => 'localhost',
-            'dbname' => 'id13393536_cnpm_coronavirus',
-            'user' => 'id13393536_root',
-            'password' => 'N#f9VKsI)<Ztf6?Q'
+            'dbname' => 'cnpm_coronavirus',
+            'user' => 'root',
+            'password' => '',
+            'charset' => 'utf8mb4',
         ],
+        'resources' => [
+            'template' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../resources/templates',
+            'views' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../resources/views',
+        ],
+        'page_meta_data' => [
+            'home' => [
+                'title' => 'Trang chủ - Thống kê | Việt Nam - Coronavirus',
+                'page' => 'home',
+            ],
+            'news' => [
+                'title' => 'Tin tức | Việt Nam - Coronavirus',
+                'page' => 'news',
+            ],
+            'symptons' => [
+                'title' => 'Biểu hiện bệnh | Việt Nam - Coronavirus',
+                'page' => 'symptons',
+            ],
+            'precaution' => [
+                'title' => 'Cách phòng tránh| Việt Nam - Coronavirus',
+                'page' => 'precaution',
+            ],
+        ]
     ]);
 };

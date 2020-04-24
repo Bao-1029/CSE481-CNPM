@@ -73,6 +73,21 @@ export const createElement = (nodeName, attrs) => {
 };
 
 /**
+ * 
+ * @param {String} nodeName 
+ * @param {Object=} attrs 
+ * @param {Object[]} arrayData 
+ * @param {function} handlerEachData 
+ */
+export const createGroupItem = function (nodeName, attrs, arrayData, handlerEachData) {
+    return createElement(nodeName, {
+        class: 'main__related-news',
+        ...attrs,
+        nodes: Array.map(arrayData.forEach(item => handler(item)))
+    });
+};
+
+/**
  * Return lastest id in the array of string
  * @param {String[]} arr - array of string
  * @param {String} searchString
