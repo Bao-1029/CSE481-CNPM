@@ -26,15 +26,15 @@ class News implements JsonSerializable {
      */
     private $imgUri;
 
-    public function __construct($title, $link, $source, $imgUri)
+    /* public function __construct($title, $link, $source, $imgUri)
     {
         $this->title = $title;
         $this->link = $link;
         $this->source = $source;
         $this->imgUri = $imgUri;
-    }
+    } */
 
-    function __get(String $key) {
+    public function __get(String $key) {
         if (property_exists($this, $key))
             return $this->$key;
         else

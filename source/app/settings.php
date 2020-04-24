@@ -23,7 +23,8 @@ return function (ContainerBuilder $containerBuilder) {
             'host' => 'localhost',
             'dbname' => 'cnpm_coronavirus',
             'user' => 'root',
-            'password' => ''
+            'password' => '',
+            'charset' => 'utf8mb4',
         ],
     ]);
 };
