@@ -9,15 +9,23 @@ use PDO;
 use PDOException;
 
 class NewsRepositoryService extends RepositoryService {
-    private const SELECT_QUERY = "CALL sp_select_news (:offset, :limt)";
-    private const INSERT_QUERY = "CALL sp_insert_news (:title, :link, :source, :imgUri)";
-    private const GET_QUERY = "SELECT f_get_latest_title_news()";
-    private const COUNT_QUERY = "SELECT count(*) FROM news_detail";
+    private function SELECT_QUERY() {
+        return 'CALL ' . $this->db_name . '.sp_select_news (:offset, :limt)';
+    }
+    private function INSERT_QUERY() {
+        return 'CALL ' . $this->db_name . '.sp_insert_news (:title, :link, :source, :imgUri)';
+    }
+    private function GET_QUERY () {
+        return 'SELECT ' . $this->db_name . '.f_get_latest_title_news()';
+    }
+    private function COUNT_QUERY() {
+        return 'SELECT count(*) as total FROM ' . $this->db_name . '.news_detail';
+    }
 
     public function insertNews(String $title, String $link, String $source, String $imgUri): bool
     {
         try {
-            if ($stmt = $this->pdo->prepare(self::INSERT_QUERY)) {
+            if ($stmt = $this->pdo->prepare($this->INSERT_QUERY())) {
                 $stmt->bindParam(":title", $title, PDO::PARAM_STR, 300);
                 $stmt->bindParam(":link", $link, PDO::PARAM_STR, 3000);
                 $stmt->bindParam(":source", $source, PDO::PARAM_STR);
@@ -35,8 +43,9 @@ class NewsRepositoryService extends RepositoryService {
     public function getLatestTitleNews(): String
     {
         try {
-            $result = $this->pdo->query(self::GET_QUERY);
-            return $result->fetch()['title'];
+            $stmt = $this->pdo->query($this->GET_QUERY());
+            $news = $stmt->fetchAll(PDO::FETCH_CLASS, \App\Domain\News\News::class);
+            return $news[0]->title ? $news[0]->title : '';
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), 1);
         }
@@ -45,7 +54,9 @@ class NewsRepositoryService extends RepositoryService {
     public function getTotalNumberOfNews()
     {
         try {
-            return $this->pdo->query(self::COUNT_QUERY);
+            $stmt = $this->pdo->query($this->COUNT_QUERY());
+            $num = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+            return $num;
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), 1);
         }
@@ -54,12 +65,13 @@ class NewsRepositoryService extends RepositoryService {
     public function selectWithCond(int $offset, int $limt)
     {
         try {
-            if ($stmt = $this->pdo->prepare(self::SELECT_QUERY)) {
+            if ($stmt = $this->pdo->prepare($this->SELECT_QUERY())) {
+                $stmt->setFetchMode(PDO::FETCH_CLASS, \App\Domain\News\News::class);
                 $stmt->bindParam(":offset", $offset, PDO::PARAM_INT);
                 $stmt->bindParam(":limt", $limt, PDO::PARAM_INT);
 
                 if ($stmt->execute())
-                    return $stmt->fetchAll(PDO::FETCH_CLASS, "News");
+                    return $stmt->fetchAll();
             }
             return null;
         } catch (PDOException $e) {

@@ -873,3 +873,109 @@ body {
   }
 }
 /*# sourceMappingURL=style.css.map */
+
+.main__loading {
+  width: 125px;
+  height: 125px;
+  position: relative;
+  border-radius: 50%;
+  -webkit-animation: load 4s linear infinite;
+  animation: load 4s linear infinite;
+}
+
+.main__loading::before {
+  position: absolute;
+  content: "";
+  top: 0px;
+  left: 0px;
+  -webkit-box-shadow: 0 0 2px #fff5;
+  box-shadow: 0 0 2px #fff5;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.main__text-loading {
+  color: black;
+  text-transform: uppercase;
+  font-size: 12px;
+  position: absolute;
+  font-weight: bold;
+  letter-spacing: 4px;
+  -webkit-animation: color 4s linear infinite;
+  animation: color 4s linear infinite;
+}
+
+@-webkit-keyframes load {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-box-shadow: 0 3px 2px #024d4d;
+    box-shadow: 0 3px 2px #024d4d;
+  }
+
+  50% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+    -webkit-box-shadow: 0 3px 2px #eeb703;
+    box-shadow: 0 3px 2px #eeb703;
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+    -webkit-box-shadow: 0 3px 2px #ee02ce;
+    box-shadow: 0 3px 2px #ee02ce;
+  }
+}
+
+@keyframes load {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-box-shadow: 0 3px 2px #024d4d;
+    box-shadow: 0 3px 2px #024d4d;
+  }
+
+  50% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+    -webkit-box-shadow: 0 3px 2px #eeb703;
+    box-shadow: 0 3px 2px #eeb703;
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+    -webkit-box-shadow: 0 3px 2px #ee02ce;
+    box-shadow: 0 3px 2px #ee02ce;
+  }
+}
+
+@-webkit-keyframes color {
+  0% {
+    color: #dc8502;
+  }
+
+  50% {
+    color: #ff8800;
+  }
+
+  100% {
+    color: #ee02ce;
+  }
+}
+
+@keyframes color {
+  0% {
+    color: #dc8502;
+  }
+
+  50% {
+    color: #ff8800;
+  }
+
+  100% {
+    color: #ee02ce;
+  }
+}

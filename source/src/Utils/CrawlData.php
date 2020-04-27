@@ -5,7 +5,7 @@ use Goutte\Client;
 
 abstract class CrawlData {
     protected $crawler;
-    protected $result;
+    public $result = [];
     protected $href;
     protected $baseHref;
 
