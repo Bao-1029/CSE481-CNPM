@@ -9,7 +9,7 @@
             <link rel="stylesheet" href="css/news.css">
         <?php
             break;
-        case 'symptons': ?>
+        case 'symptoms': ?>
             <link rel="stylesheet" href="css/symptoms.css">
         <?php
             break;

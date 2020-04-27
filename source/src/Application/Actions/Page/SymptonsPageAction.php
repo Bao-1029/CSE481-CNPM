@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use RuntimeException;
 use InvalidArgumentException;
 
-class SymptonsPageAction extends PageAction
+class SymptomsPageAction extends PageAction
 {
     /**
      * {@inheritdoc}
@@ -16,7 +16,7 @@ class SymptonsPageAction extends PageAction
     protected function action(): Response
     {
         try {
-            return $this->renderer->render($this->response, 'symptons.php', $this->meta['symptons']);
+            return $this->renderer->render($this->response, 'symptoms.php', $this->meta['symptoms']);
         } catch (RuntimeException $e) {
             $this->logger->error('Template might not exist\nError: ' . $e->getMessage());
         } catch (InvalidArgumentException $e) {
