@@ -16,6 +16,9 @@
   # absolute physical path to the directory that contains this htaccess file.
   # RewriteBase /
 
+  # Stop processing if already in the /css or /js directory
+  RewriteRule ^(css|js)/ - [L]
+  
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^ index.php [QSA,L]
 </IfModule>

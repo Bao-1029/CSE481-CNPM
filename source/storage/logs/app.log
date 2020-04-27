@@ -14,3 +14,5 @@
 [2020-04-24 06:51:29] slim-app.ERROR: Template might not exist\nError: View cannot render `head.php` because the template does not exist [] {"uid":"873de6a"}
 [2020-04-24 06:55:48] slim-app.ERROR: Template might not exist\nError: View cannot render `head.php` because the template does not exist [] {"uid":"735cee6"}
 [2020-04-24 06:56:36] slim-app.ERROR: Template might not exist\nError: View cannot render `head.php` because the template does not exist [] {"uid":"1b1ffbf"}
+[2020-04-24 09:09:51] slim-app.ERROR: Template might not exist\nError: View cannot render `t/head.php` because the template does not exist [] {"uid":"8d75a82"}
+[2020-04-24 09:10:35] slim-app.ERROR: Template might not exist\nError: View cannot render `/t/head.php` because the template does not exist [] {"uid":"64841dc"}

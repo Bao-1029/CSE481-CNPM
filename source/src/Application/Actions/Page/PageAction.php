@@ -31,7 +31,7 @@ abstract class PageAction extends Action {
             parent::__construct($logger);
             $this->renderer = new PhpRenderer();
             $this->renderer->setTemplatePath($path_to_view);
-            $this->renderer->setLayout('template.php');
+            $this->renderer->setLayout('layout.php');
         } catch (RuntimeException $e) {
             $this->logger->error('Template might not exist\nError: ' . $e->getMessage());
         }
