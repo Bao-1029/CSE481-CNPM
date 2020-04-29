@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 20, 2020 lúc 07:41 PM
+-- Thời gian đã tạo: Th4 29, 2020 lúc 07:05 PM
 -- Phiên bản máy phục vụ: 10.1.38-MariaDB
 -- Phiên bản PHP: 7.3.4
 
@@ -26,7 +26,7 @@ DELIMITER $$
 --
 -- Thủ tục
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_news` (`title` VARCHAR(300), `link` VARCHAR(3000), `source` TINYTEXT, `imgUri` VARCHAR(3000))  Begin
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_news` (IN `title` VARCHAR(300) CHARSET utf8mb4, IN `link` VARCHAR(3000) CHARSET utf8mb4, IN `source` TINYTEXT CHARSET utf8mb4, IN `imgUri` VARCHAR(3000) CHARSET utf8mb4)  Begin
     Declare id tinyint(3);
     Set id = f_get_source_id(source);
     Insert into news (title, link, sourceId, imgUri) Value (title, link, id, imgUri);
@@ -50,7 +50,7 @@ End$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `f_get_source_id` (`source` TINYTEXT) RETURNS TINYINT(3) Begin
     Declare id tinyint(3);
 
-    Select n.id Into id From news_detail as n
+    Select n.id Into id From news_source as n
         Where n.source = source;
 
     If id IS NULL THEN
@@ -135,8 +135,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- Chỉ mục cho bảng `news`
 --
 ALTER TABLE `news`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `sourceId` (`sourceId`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `news_source`
@@ -162,14 +161,10 @@ ALTER TABLE `news`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- Các ràng buộc cho các bảng đã đổ
+-- AUTO_INCREMENT cho bảng `news_source`
 --
-
---
--- Các ràng buộc cho bảng `news`
---
-ALTER TABLE `news`
-  ADD CONSTRAINT `news_ibfk_1` FOREIGN KEY (`sourceId`) REFERENCES `news_source` (`id`);
+ALTER TABLE `news_source`
+  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

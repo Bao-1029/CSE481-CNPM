@@ -37,7 +37,7 @@ Create Function f_get_source_id (source tinytext)
 Begin
     Declare id tinyint(3);
 
-    Select n.id Into id From news_detail as n
+    Select n.id Into id From news_source as n
         Where n.source = source;
 
     If id IS NULL THEN
@@ -61,7 +61,7 @@ DELIMITER ;
 --   + Chèn dữ liệu vào bảng `news` với các dl title, link, sourceId, imgUri
 DELIMITER $$
 
-Create Procedure sp_insert_news (title varchar(300), link varchar(3000), source tinytext, imgUri varchar(3000))
+Create Procedure sp_insert_news (title varchar(300) CHARSET utf8mb4, link varchar(3000) CHARSET utf8mb4, source tinytext CHARSET utf8mb4, imgUri varchar(3000) CHARSET utf8mb4)
 Begin
     Declare id tinyint(3);
     Set id = f_get_source_id(source);
