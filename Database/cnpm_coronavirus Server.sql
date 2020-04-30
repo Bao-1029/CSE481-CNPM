@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 20, 2020 lúc 07:41 PM
+-- Thời gian đã tạo: Th4 30, 2020 lúc 12:04 PM
 -- Phiên bản máy phục vụ: 10.1.38-MariaDB
 -- Phiên bản PHP: 7.3.4
 
@@ -19,14 +19,14 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `id13393536_cnpm_coronavirus`
+-- Cơ sở dữ liệu: `cnpm_coronavirus`
 --
 
 DELIMITER $$
 --
 -- Thủ tục
 --
-CREATE DEFINER=`id13393536_root`@`localhost` PROCEDURE `sp_insert_news` (`title` VARCHAR(300), `link` VARCHAR(3000), `source` TINYTEXT, `imgUri` VARCHAR(3000))  Begin
+CREATE DEFINER=`id13393536_root`@`localhost` PROCEDURE `sp_insert_news` (IN `title` VARCHAR(300) CHARSET utf8mb4, IN `link` VARCHAR(3000) CHARSET utf8mb4, IN `source` TINYTEXT CHARSET utf8mb4, IN `imgUri` VARCHAR(3000) CHARSET utf8mb4)  Begin
     Declare id tinyint(3);
     Set id = f_get_source_id(source);
     Insert into news (title, link, sourceId, imgUri) Value (title, link, id, imgUri);
@@ -50,7 +50,7 @@ End$$
 CREATE DEFINER=`id13393536_root`@`localhost` FUNCTION `f_get_source_id` (`source` TINYTEXT) RETURNS TINYINT(3) Begin
     Declare id tinyint(3);
 
-    Select n.id Into id From news_detail as n
+    Select n.id Into id From news_source as n
         Where n.source = source;
 
     If id IS NULL THEN
@@ -160,6 +160,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `news`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `news_source`
+--
+ALTER TABLE `news_source`
+  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
