@@ -6,7 +6,7 @@ use App\Application\Actions\News\NewsPaginationAction;
 use App\Application\Actions\News\AllNewsAction;
 use App\Application\Actions\Page\HomePageAction;
 use App\Application\Actions\Page\NewsPageAction;
-use App\Application\Actions\Page\SymptonsPageAction;
+use App\Application\Actions\Page\SymptomsPageAction;
 use App\Application\Actions\Page\PrecautionPageAction;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -26,7 +26,7 @@ return function (App $app) {
     $app->group('/', function (Group $group) {
         $group->get('trang-chu', HomePageAction::class);
         $group->get('tin-tuc', NewsPageAction::class);
-        $group->get('bieu-hien-benh', SymptonsPageAction::class);
+        $group->get('bieu-hien-benh', SymptomsPageAction::class);
         $group->get('cach-phong-tranh', PrecautionPageAction::class);
         $group->get('', HomePageAction::class);
     });
@@ -42,7 +42,7 @@ return function (App $app) {
         });
         $group->get('/trang-chu', HomePageAction::class);
         $group->get('/tin-tuc', NewsPageAction::class);
-        $group->get('/bieu-hien-benh', SymptonsPageAction::class);
+        $group->get('/bieu-hien-benh', SymptomsPageAction::class);
         $group->get('/cach-phong-tranh', PrecautionPageAction::class);
     }); */
 

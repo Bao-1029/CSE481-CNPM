@@ -8,9 +8,11 @@
         case 'news': ?>
             <link rel="stylesheet" href="css/news.css">
         <?php
-        case 'symptons': ?>
-            <link rel="stylesheet" href="css/symptons.css">
+            break;
+        case 'symptoms': ?>
+            <link rel="stylesheet" href="css/symptoms.css">
         <?php
+            break;
         case 'precaution': ?>
             <link rel="stylesheet" href="css/precaution.css">
     <?php endswitch; ?>

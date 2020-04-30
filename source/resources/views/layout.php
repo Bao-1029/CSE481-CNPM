@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <?= $this->fetch('head.php'); ?>
+<?php include_once 'partials/head.php'; ?>
 
 <body>
-    <?= $this->fetch('header.php'); ?>
+    <?php include_once 'partials/header.php'; ?>
 
     <?= $content; ?>
 
-    <?= $this->fetch('footer.php'); ?>
-    <?= $this->fetch('contact.php'); ?>
-    <?= $this->fetch('hotlines.php'); ?>
+    <?php include_once 'partials/contact.php'; ?>
+
+    <?php include_once 'partials/hotlines.php'; ?>
+
+    <?php include_once 'partials/footer.php'; ?>
 </body>
 
 </html>
