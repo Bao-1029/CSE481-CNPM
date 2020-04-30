@@ -10,3 +10,4 @@
     case 'news': ?>
         <script src="js/news.js" type="module"></script>
 <?php endswitch; ?>
+<script src="//code.tidio.co/kbajig7ofsjz3hsesr7pp8xv3voj20ka.js" async></script>

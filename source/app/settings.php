@@ -39,12 +39,12 @@ return function (ContainerBuilder $containerBuilder) {
                 'title' => 'Tin tức | Việt Nam - Coronavirus',
                 'page' => 'news',
             ],
-            'symptons' => [
+            'symptoms' => [
                 'title' => 'Biểu hiện bệnh | Việt Nam - Coronavirus',
-                'page' => 'symptons',
+                'page' => 'symptoms',
             ],
             'precaution' => [
-                'title' => 'Cách phòng tránh| Việt Nam - Coronavirus',
+                'title' => 'Cách phòng tránh | Việt Nam - Coronavirus',
                 'page' => 'precaution',
             ],
         ]
