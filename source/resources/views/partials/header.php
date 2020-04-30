@@ -14,7 +14,7 @@
             <li class="header__menu-list <?= $page == 'news' ? 'header__menu-list--active' : '' ?>"><a class="header__menu-text" href="tin-tuc">Tin Tức</a></li>
             <li class="header__menu-list <?= $page == 'symptoms' ? 'header__menu-list--active' : '' ?>"><a class="header__menu-text" href="bieu-hien-benh">Biểu hiện bệnh</a></li>
             <li class="header__menu-list <?= $page == 'precaution' ? 'header__menu-list--active' : '' ?>"><a class="header__menu-text" href="cach-phong-tranh">Cách phòng tránh</a></li>
-            <li class="header__menu-list"><a class="header__menu-text" href="">Trắc nghiệm</a></li>
+            <li class="header__menu-list"><a class="header__menu-text" href="https://docs.google.com/forms/d/e/1FAIpQLSe7bXLbgolLE-TtlGDaCXWfWnbqq2Dz5uDT8I1VE1JFJKU7EA/viewform" target="__blank">Trắc nghiệm</a></li>
         </ul>
     </div>
 </header>
