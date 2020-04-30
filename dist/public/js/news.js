@@ -1,17 +1,27 @@
 import { createElement, createGroupItem, mandatory } from './helpers.js';
 
+let load_num = 0;
+
 function initView(data) {
-    const main = document.querySelector('');
+    let headlines = data.headlines;
+    const featuredNews = headlines.shift(),
+        relatedNews = headlines,
+        otherNews = data.news,
+        main = document.querySelector('.main'),
+        loading = document.querySelector('.main__loading'),
         fragment = new DocumentFragment();
-    fragment.appendChild(createHotlines(data));
-    fragment.appendChild(createOtherNews(data));
+    fragment.appendChild(createHotlines(featuredNews, relatedNews));
+    fragment.appendChild(createOtherNews(otherNews));
 
     const btn_more = createElement('button', {
         events: {
-            'click': loadOtherNews(fragment.querySelector('.main__recent-news'), getNews())
+            class: 'main__more',
+            html: '<span>Xem thêm</span>',
+            'click': loadOtherNews(fragment.querySelector('.main__recent-news'), getNews(load_num++))
         }
-    })
+    });
     fragment.appendChild(btn_more);
+    main.removeChild(loading);
     main.appendChild(fragment);
 }
 
@@ -97,7 +107,7 @@ function createOtherNewsItem(item) {
 }
 
 function loadOtherNews(node, data) {
-    
+    node.appendChild(createOtherNews(data));
 }
 
 /**
@@ -113,6 +123,9 @@ function getNews(param) {
             return;
         }
         return response.json();
+    })
+    .then(json => {
+        return json.data;
     })
     .catch(err =>
         console.log('Request failed', err)

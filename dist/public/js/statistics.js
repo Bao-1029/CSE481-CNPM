@@ -1,10 +1,12 @@
 import { createElement, mandatory, summaryDataObj } from './helpers.js';
 
 function initView(data, currentGeo, lastUpdate) {
-    const main = document.querySelector(''),
+    const main = document.querySelector('.main'),
+        loading = document.querySelector('.main__loading');
         fragment = new DocumentFragment();
     fragment.appendChild(createMainComponent(data, currentGeo, lastUpdate));
     fragment.appendChild(createTableData(data));
+    main.removeChild(loading);
     main.appendChild(fragment);
 }
 

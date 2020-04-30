@@ -297,10 +297,4 @@
             </div>
         </div>
     </div>
-    <div class="main__note">
-        <p>Thực hiện khai báo y tế, cập nhật tình hình sức khỏe hàng ngày, giữ liên hệ thường xuyên với cán bộ y tế, cơ sở y tế.</p>
-        <p>Liên tục theo dõi tình trạng sức khỏe của mình. Nếu có bất kỳ triệu chứng đáng lo ngại nào cũng là một lý do để không rời khỏi nhà và liên hệ với bác sĩ. </p>
-        <p>Đeo khẩu trang và đến các cơ sở y tế khám bệnh ngay khi có triệu chứng hô hấp.</p>
-        <p>Ở nhà và tự cách ly khỏi những người khác trong gia đình nếu bạn cảm thấy không khỏe</p>
-    </div>
 </main>
