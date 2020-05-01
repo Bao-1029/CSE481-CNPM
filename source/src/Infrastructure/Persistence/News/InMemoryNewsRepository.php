@@ -63,7 +63,7 @@ class InMemoryNewsRepository implements NewsRepository {
         try {
             $headlines = $this->getHeadlines();
             $newsList = $this->getNewsByPagiation(1);
-            return array_merge($headlines, ['news' => $newsList]);
+            return array_merge(['headlines' => $headlines], ['news' => $newsList]);
         } catch (Exception $e) {
             throw new NewsNotFoundException("Error Processing Request", 1);
         }
@@ -97,7 +97,9 @@ class InMemoryNewsRepository implements NewsRepository {
     public function getNewsByPagiation(int $num): array
     {
         try {
-            $offset = ($this->totalNumNews - static::$config['headLines']['limit']) - static::$config['newsPagination']['limit'];
+            $offset = ($this->totalNumNews - static::$config['headLines']['limit']) - (static::$config['newsPagination']['limit'] * $num);
+            if ($offset <= 0)
+                return [];
             return $this->service->selectWithCond((int) $offset, (int) static::$config['newsPagination']['limit']);
         } catch (OutOfRangeException $e) {
             throw new NewsNotFoundException("Not Found!", 1);

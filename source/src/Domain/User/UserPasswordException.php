@@ -5,7 +5,7 @@ namespace App\Domain\User;
 
 use App\Domain\DomainException\DomainRecordNotFoundException;
 
-class UserNotFoundException extends DomainRecordNotFoundException
+class UserPasswordException extends DomainRecordNotFoundException
 {
-    public $message = 'Không tìm thấy username';
+    public $message = 'Mật khẩu không chính xác';
 }
