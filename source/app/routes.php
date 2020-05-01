@@ -1,6 +1,14 @@
 <?php
 declare(strict_types=1);
 
+use App\Application\Actions\AdminPage\DashboardPageAction;
+use App\Application\Actions\AdminPage\LoginPageAction;
+use App\Application\Actions\Hotline\AddHotlineAction;
+use App\Application\Actions\Hotline\EditHotlineAction;
+use App\Application\Actions\Hotline\ListHotlineAction;
+use App\Application\Actions\Hotline\RemoveHotlineAction;
+use App\Application\Actions\User\UserLoginAction;
+use App\Application\Actions\User\UserLogoutAction;
 use App\Application\Actions\News\HeadlinesAction;
 use App\Application\Actions\News\NewsPaginationAction;
 use App\Application\Actions\News\AllNewsAction;
@@ -8,14 +16,12 @@ use App\Application\Actions\Page\HomePageAction;
 use App\Application\Actions\Page\NewsPageAction;
 use App\Application\Actions\Page\SymptonsPageAction;
 use App\Application\Actions\Page\PrecautionPageAction;
-
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 use Slim\Exception\HttpNotFoundException;
-use Slim\Views\PhpRenderer;
 
 
 return function (App $app) {
@@ -28,9 +34,11 @@ return function (App $app) {
         $group->get('tin-tuc', NewsPageAction::class);
         $group->get('bieu-hien-benh', SymptonsPageAction::class);
         $group->get('cach-phong-tranh', PrecautionPageAction::class);
+        $group->get('login', LoginPageAction::class);
+        $group->get('dashboard', DashboardPageAction::class);
         $group->get('', HomePageAction::class);
     });
-   /*  $app->group('/page', function (Group $group) {
+    /*  $app->group('/page', function (Group $group) {
         $group->get('/', function (Request $request, Response $response) {
             $path_to_temp = $c->get('resources')['template'];
             $path_to_view = $c->get('resources')['views'];
@@ -45,6 +53,18 @@ return function (App $app) {
         $group->get('/bieu-hien-benh', SymptonsPageAction::class);
         $group->get('/cach-phong-tranh', PrecautionPageAction::class);
     }); */
+
+    $app->group('/hotline', function (Group $group) {
+        $group->get('/all', ListHotlineAction::class);
+        $group->post('', AddHotlineAction::class);
+        $group->put('', EditHotlineAction::class);
+        $group->delete('', RemoveHotlineAction::class);
+    });
+
+    $app->group('/api/user', function (Group $group) {
+        $group->post('/login', UserLoginAction::class);
+        $group->delete('/logout', UserLogoutAction::class);
+    });
 
     $app->group('/api/news', function (Group $group) {
         /**

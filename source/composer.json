@@ -24,6 +24,7 @@
     "require": {
         "php": ">=7.1",
         "ext-json": "*",
+        "bryanjhv/slim-session": "^4.0",
         "fabpot/goutte": "^4.0",
         "magicalex/write-ini-file": "^2.0",
         "monolog/monolog": "^1.24",

@@ -51,7 +51,7 @@ class NewsRepositoryService extends RepositoryService {
         }
     }
 
-    public function getTotalNumberOfNews()
+    public function getTotalNumberOfNews(): int
     {
         try {
             $stmt = $this->pdo->query($this->COUNT_QUERY());

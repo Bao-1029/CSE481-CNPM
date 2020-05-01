@@ -29,6 +29,7 @@ return function (ContainerBuilder $containerBuilder) {
         'resources' => [
             'template' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../resources/templates',
             'views' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../resources/views',
+            'views_admin' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../resources/views/admin',
         ],
         'page_meta_data' => [
             'home' => [
@@ -44,8 +45,16 @@ return function (ContainerBuilder $containerBuilder) {
                 'page' => 'symptons',
             ],
             'precaution' => [
-                'title' => 'Cách phòng tránh| Việt Nam - Coronavirus',
+                'title' => 'Cách phòng tránh | Việt Nam - Coronavirus',
                 'page' => 'precaution',
+            ],
+            'login' => [
+                'title' => 'Đăng nhập | Việt Nam - Coronavirus',
+                'page' => 'login',
+            ],
+            'dashboard' => [
+                'title' => 'Bảng điều khiển | Việt Nam - Coronavirus',
+                'page' => 'dashboard',
             ],
         ]
     ]);

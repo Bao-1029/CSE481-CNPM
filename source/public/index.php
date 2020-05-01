@@ -64,6 +64,10 @@ $shutdownHandler = new ShutdownHandler($request, $errorHandler, $displayErrorDet
 register_shutdown_function($shutdownHandler);
 
 $app->add(\App\Application\Middleware\CorsMiddleware::class);
+$app->add(new \Slim\Middleware\Session([
+	'autorefresh' => true,
+	'lifetime' => '1 hour'
+]));
 
 // Add Routing Middleware
 $app->addRoutingMiddleware();
