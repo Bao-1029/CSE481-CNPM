@@ -5,6 +5,10 @@
     <link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <?php switch ($page):
+        case 'home': ?>
+            <link rel="stylesheet" href="css/statistics.css">
+        <?php
+            break;
         case 'news': ?>
             <link rel="stylesheet" href="css/news.css">
         <?php
