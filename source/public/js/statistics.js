@@ -1,10 +1,12 @@
 import { createElement, mandatory, summaryDataObj } from './helpers.js';
 
 function initView(data, currentGeo, lastUpdate) {
-    const main = document.querySelector(''),
+    const main = document.querySelector('.main'),
+        loading = document.querySelector('.main__icon-loading');
         fragment = new DocumentFragment();
     fragment.appendChild(createMainComponent(data, currentGeo, lastUpdate));
     fragment.appendChild(createTableData(data));
+    main.removeChild(loading);
     main.appendChild(fragment);
 }
 
@@ -23,7 +25,7 @@ function createMainComponent(data = mandatory(), currentGeo = 'Hà Nội', lastU
         main_data = createElement('div', {
             class: 'main__data-content'
         }),
-        lastUpdate = createElement('p', {
+        last_update = createElement('p', {
             class: 'main__time-update',
             text: `Cập nhật lần cuối lúc: ${lastUpdate}`
         }),
@@ -50,7 +52,7 @@ function createMainComponent(data = mandatory(), currentGeo = 'Hà Nội', lastU
         main_data.appendChild(component);
     });
 
-    main_data.appendChild(lastUpdate);
+    main_data.appendChild(last_update);
     main.appendChild(main_data);
     return main;
 }
