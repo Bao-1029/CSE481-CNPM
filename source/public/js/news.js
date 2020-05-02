@@ -11,8 +11,8 @@ async function initView() {
         main = document.querySelector('.main'),
         loading = document.querySelector('.main__icon-loading'),
         fragment = new DocumentFragment();
-    fragment.appendChild(createHotlines(data));
-    fragment.appendChild(createOtherNews(data));
+    fragment.appendChild(createHotlines(featuredNews, relatedNews));
+    fragment.appendChild(createOtherNews(otherNews));
 
     const frag_recent = fragment.querySelector('.main__recent-news'),
         btn_more = createElement('button', {
@@ -21,8 +21,9 @@ async function initView() {
             events: {
                 click: loadOtherNews.bind(this, frag_recent, load_num++),
         }
-    })
+    });
     fragment.appendChild(btn_more);
+    main.removeChild(loading);
     main.appendChild(fragment);
 }
 
@@ -85,7 +86,7 @@ function createOtherNews(data = mandatory()) {
 
 function createOtherNewsItem(item) {
     const { title, source, link, imgUri } = item,
-    img = createElement('div', {
+        img = createElement('div', {
             class: 'main__recent-img',
             html: `<a href="${link}"><img src="${imgUri}" alt=""></a>`
         }),
@@ -125,6 +126,9 @@ function getNews(param) {
             return;
         }
         return response.json();
+    })
+    .then(json => {
+        return json.data;
     })
     .catch(err =>
         console.log('Request failed', err)

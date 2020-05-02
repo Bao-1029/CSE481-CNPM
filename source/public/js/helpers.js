@@ -82,7 +82,6 @@ export const createElement = (nodeName, attrs) => {
  */
 export const createGroupItem = function (nodeName, attrs, arrayData, handlerEachData) {
     return createElement(nodeName, {
-        class: 'main__related-news',
         ...attrs,
         nodes: arrayData.map(item => handlerEachData(item))
     });

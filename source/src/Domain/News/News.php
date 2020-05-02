@@ -41,6 +41,10 @@ class News implements JsonSerializable {
             die("Property not exists");
     }
 
+    public function __sleep() {
+        return array('title', 'link', 'source', 'imgUri');
+    }
+
     /**
      * @return array
      */
