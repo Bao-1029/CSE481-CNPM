@@ -1,14 +1,25 @@
 import { createElement, createGroupItem, mandatory } from './helpers.js';
 
-function initView(data) {
-    const main = document.querySelector('');
+let load_num = 0;
+
+async function initView() {
+    const data = await getNews('all');
+    let headlines = data.headlines;
+    const featuredNews = headlines.shift(),
+        relatedNews = headlines,
+        otherNews = data.news,
+        main = document.querySelector('.main'),
+        loading = document.querySelector('.main__icon-loading'),
         fragment = new DocumentFragment();
     fragment.appendChild(createHotlines(data));
     fragment.appendChild(createOtherNews(data));
 
-    const btn_more = createElement('button', {
-        events: {
-            'click': loadOtherNews(fragment.querySelector('.main__recent-news'), getNews())
+    const frag_recent = fragment.querySelector('.main__recent-news'),
+        btn_more = createElement('button', {
+            class: 'main__more',
+            html: '<span>Xem thêm</span>',
+            events: {
+                click: loadOtherNews.bind(this, frag_recent, load_num++),
         }
     })
     fragment.appendChild(btn_more);
@@ -33,7 +44,7 @@ function createFeaturedNews(data = mandatory()) {
             html: `<img src="${imgUri}" alt="">`
         }),
         p = createElement('p', {
-            html: title
+            html: `<a href="${href}">${title}</a>`
         }),
         span = createElement('span', {
             class: 'main__source',
@@ -79,7 +90,7 @@ function createOtherNewsItem(item) {
             html: `<a href="${link}"><img src="${imgUri}" alt=""></a>`
         }),
         p = createElement('p', {
-            html: `<a href="${href}">${title}</a>`
+            html: `<a href="${link}">${title}</a>`
         }),
         span = createElement('span', {
             class: 'main__source',
@@ -96,15 +107,16 @@ function createOtherNewsItem(item) {
     return div;
 }
 
-function loadOtherNews(node, data) {
-    
+function loadOtherNews(node, num) {
+    const data = getNews(num).then(d => d);
+    node.appendChild(createOtherNews(data));
 }
 
 /**
  * @returns json data
  */
 function getNews(param) {
-    fetch(`/api/news/${param}`, {
+    return fetch(`/api/news/${param}`, {
         method: 'GET'
     })
     .then(response => {
@@ -119,4 +131,4 @@ function getNews(param) {
     );
 }
 
-initView(getNews('all'));
+initView();

@@ -11,11 +11,12 @@
  *   @param {String=} attrs.text - text of element
  *   @param {{ name: value }} [attrs.props] - properties of a element
  *   @param {Boolean=} [attrs.eventsInline = false] - inline attribute - default false
- *   @param {{ name: listener }} [attrs.events] - list events of element
+ *   @param {{ name: listener }} [attrs.events] - list events of element 
+ *   - if you want to pass a written func, you shoud use `bind` or else it will fire immediately
  * @example <caption>events property</caption>
  * // {
- * //   click: function,
- * //   change: function
+ * //   click: function() {},
+ * //   change: <function name>.bind(this, args)
  * // }
  * @example <caption>node properties</caption>
  * // {
@@ -83,7 +84,7 @@ export const createGroupItem = function (nodeName, attrs, arrayData, handlerEach
     return createElement(nodeName, {
         class: 'main__related-news',
         ...attrs,
-        nodes: Array.map(arrayData.forEach(item => handler(item)))
+        nodes: arrayData.map(item => handlerEachData(item))
     });
 };
 
