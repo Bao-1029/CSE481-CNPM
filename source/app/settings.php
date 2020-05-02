@@ -28,7 +28,7 @@ return function (ContainerBuilder $containerBuilder) {
         ],
         'resources' => [
             'template' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../resources/templates',
-            'views' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../resources/views',
+            'views' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../resources/views/public',
             'views_admin' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../resources/views/admin',
         ],
         'page_meta_data' => [
