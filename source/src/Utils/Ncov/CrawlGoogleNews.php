@@ -35,10 +35,15 @@ class CrawlGoogleNews extends CrawlData {
             $source = $children->children('[jsname="Hn1wIf"] .wEwyrc')->text();
             $img = $previous->getNode(0) ? $previous->children()->children('img.QwxBBf') : null;
             $imgUri = $img ? $img->attr('src') : '';
+            /*
+             * Error: Malformed UTF-8 characters, possibly incorrectly encoded
+             * https://stackoverflow.com/questions/50610990/php-json-encode-is-getting-malformed-utf-8-characters-possibly-incorrectly-e
+             */
+            $this->encoding = mb_detect_encoding($title, self::$encoding_list, true);
             $item = array(
-                'title' => $title,
+                'title' => mb_convert_encoding($title, 'UTF-8', $this->encoding),
                 'link'  => $link,
-                'source' => $source,
+                'source' => mb_convert_encoding($source, 'UTF-8', $this->encoding),
                 'imgUri' => $imgUri
             );
             array_push($this->result, $item);

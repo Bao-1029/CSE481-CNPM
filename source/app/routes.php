@@ -30,6 +30,13 @@ return function (App $app) {
         return $response;
     }); */
     $app->group('/', function (Group $group) {
+        // Allow preflight requests
+        // Due to the behaviour of browsers when sending a request,
+        // you must add the OPTIONS method. Read about preflight.
+        $group->options('trang-chu', function (Request $request, Response $response): Response {
+            // Do nothing here. Just return the response.
+            return $response;
+        });
         $group->get('trang-chu', HomePageAction::class);
         $group->get('tin-tuc', NewsPageAction::class);
         $group->get('bieu-hien-benh', SymptonsPageAction::class);
@@ -56,9 +63,9 @@ return function (App $app) {
 
     $app->group('/hotline', function (Group $group) {
         $group->get('/all', ListHotlineAction::class);
-        $group->post('', AddHotlineAction::class);
-        $group->put('', EditHotlineAction::class);
-        $group->delete('', RemoveHotlineAction::class);
+        $group->post('/add', AddHotlineAction::class);
+        $group->put('/edit', EditHotlineAction::class);
+        $group->delete('/remove', RemoveHotlineAction::class);
     });
 
     $app->group('/api/user', function (Group $group) {
