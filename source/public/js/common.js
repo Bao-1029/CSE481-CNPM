@@ -27,9 +27,14 @@ document.querySelector('.main__contact-phone').addEventListener('click', functio
 function getHotlines() {
     fetch('api/hotline/all', {
         method: 'GET'
-    }).then(resresponse => {
-        if (response.status !== 200) {
-            console.log(`Check your internet connection\nerror code: ${response.status}`);
+    })
+    .then(response => {
+        if (response.status == 500) {
+            alert(`Check your internet connection\nerror code: ${response.status}`);
+            return;
+        }
+        else if (response.status != 200) {
+            alert(response.error);
             return;
         }
         return response.json();
