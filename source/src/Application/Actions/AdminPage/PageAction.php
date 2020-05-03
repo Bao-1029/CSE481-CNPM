@@ -29,7 +29,6 @@ abstract class PageAction extends Action {
         $this->session = new Helper;
         if (!$this->session->exists('userId')) {
             $this->redirectToLogin();
-            exit;
         }
 
         try {
@@ -46,6 +45,7 @@ abstract class PageAction extends Action {
     }
 
     private function redirectToLogin(): Response {
-        return $this->respond->withHeader('Location', 'login')->withStatus(302);
+        $this->response = new Response();
+        return $this->response->withHeader('Location', 'login')->withStatus(302);
     }
 }
