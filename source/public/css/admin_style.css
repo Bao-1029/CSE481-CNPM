@@ -20,6 +20,7 @@ input {
 }
 
 .header {
+    position: relative;
     max-width: 1166px;
     padding: 58px 0px;
     margin: auto;
@@ -42,7 +43,6 @@ input {
     font-weight: bold;
     vertical-align: top;
 }
-
 
 .footer {
     margin-top: 310px;
