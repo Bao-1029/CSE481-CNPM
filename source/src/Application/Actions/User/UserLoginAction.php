@@ -13,8 +13,8 @@ class UserLoginAction extends UserAction {
      * {@inheritdoc}
      */
     protected function action(): Response {
-        $username = (String) $this->resolveArg('username');
-        $password = (String) $this->resolveArg('password');
+        $username = base64_decode((String) $this->resolveArg('username'));
+        $password = base64_decode((string) $this->resolveArg('password'));
         $user = $this->userRepository->findUser($username, $password);
 
         if ($user)

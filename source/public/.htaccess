@@ -1,3 +1,8 @@
+# Header always set Access-Control-Allow-Origin "*" env=CORS
+# Header always set Access-Control-Allow-Methods "POST, GET"  env=CORS
+# Header always set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization" env=CORS
+# Header set Access-Control-Allow-Credentials "true" env=CORS
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
@@ -18,7 +23,8 @@
 
   # Stop processing if already in the /css or /js directory
   RewriteRule ^(css|js)/ - [L]
-  
+  # RewriteCond %{REQUEST_METHOD} OPTIONS
+
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^ index.php [QSA,L]
 </IfModule>
