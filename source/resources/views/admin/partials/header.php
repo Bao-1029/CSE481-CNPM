@@ -5,11 +5,15 @@
     </div>
     <?php if ($page != 'login'): ?>
     <div class="header__menu">
+        <svg class="header__icon-bar" fill="#003560" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 6h-24v-4h24v4zm0 4h-24v4h24v-4zm0 8h-24v4h24v-4z"/></svg>
         <ul class="header__menu-content">
             <li class="header__item">Quản lý</li>
             <li class="header__item active"><a href="." class="header__menu-text">Đường dây nóng</a></li>
             <li class="header__item"><a href="https://docs.google.com/forms/d/1viZUBuT2cEf8BNCwWF4uXH4jZx-KUDkTQ8dReCvi89U/edit" class="header__menu-text">Câu hỏi trắc nghiệm</a></li>
             <li class="header__item"><a href="https://www.tidio.com/panel" class="header__menu-text">Chatbot</a></li>
+            <li class="header-item"><a href=""><?= $account; ?></a></li>
+            <li class="header-item"><a href="">Đăng xuất</a></li>
+            <svg class="header__close-menu" id="close-menu" xmlns="http://www.w3.org/2000/svg" fill="red"  width="26" height="26" viewBox="0 0 18 18"><path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"/></svg>
         </ul>
     </div>
     <div class="header__acount">

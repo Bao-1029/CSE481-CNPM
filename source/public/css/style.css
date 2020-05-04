@@ -238,32 +238,31 @@ body {
   cursor: pointer;
 }
 
-.main__hospital-main {
+.main__hospital-menu {
+  width: 412px;
+  margin: auto;
+  margin-top: 16px;
+}
+
+.main__hospital-menu li {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  padding: 20px 0px;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  list-style: none;
 }
 
-.main__hospital-main h5 {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 16px;
+.main__hospital-menu li:nth-child(1) span {
   color: #7975E1;
-  margin: 13px 0px;
-  padding: 0px 10px;
-}
-
-.main__hospital-main p {
-  color: #888181;
-  padding: 8px 10px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .main__contact {
   position: fixed;
-  bottom: 22%;
+  bottom: 140px;
   right: 27px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -277,9 +276,10 @@ body {
           align-items: center;
 }
 
-.main__contact-title {
+.main__contact-title, .main__back-text {
   text-align: center;
   line-height: normal;
+  white-space: nowrap;
   height: 42px;
   display: inline-block;
   color: #003560;
@@ -297,19 +297,46 @@ body {
 .main__contact-phone {
   width: 60px;
   height: 60px;
+  position: relative;
   display: block;
   padding: 15px;
   border-radius: 50%;
   color: white;
   text-align: center;
-  background: -webkit-gradient(linear, left top, left bottom, from(#F46368), to(#CF1F9A));
-  background: linear-gradient(#F46368, #CF1F9A);
-  -webkit-box-shadow: 0px 3px 24px rgba(245, 102, 102, .45);
-          box-shadow: 0px 3px 24px rgba(245, 102, 102, .45);
+  background: -webkit-linear-gradient(-45deg, #CF1F9A, #F56666);
+  background: linear-gradient(135deg, #CF1F9A, #F56666);
+  -webkit-box-shadow: 0px 4px 24px rgba(245, 102, 102, .45);
+          box-shadow: 0px 4px 24px rgba(245, 102, 102, .45);
   cursor: pointer;
 }
 
-.main__contact-phone:hover > .main__contact-title {
+.main__back {
+  width: 60px;
+  height: 60px;
+  position: relative;
+  display: block;
+  padding: 20px 0;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  background: -webkit-linear-gradient(135deg, #F64AC3, #C3CB98);
+  background: linear-gradient(135deg, #F64AC3, #C3CB98);
+  -webkit-box-shadow: 0px 4px 24px rgba(245, 102, 102, 0.45);
+          box-shadow: 0px 4px 24px rgba(245, 102, 102, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.main__back.show {
+  margin-bottom: 30px;
+  opacity: 1;
+  visibility: visible;
+}
+
+.main__contact-phone:hover > .main__contact-title,
+.main__back:hover > .main__back-text {
   right: 125%;
   box-shadow: 0 6px 32px 0 rgba(0, 18, 46, 0.24);
   visibility: visible;
@@ -391,15 +418,16 @@ body {
   .header__menu-text {
     font-size: 18px;
   }
+  .main {
+    position: relative;
+    padding: 0px;
+  }
+  .main__icon-loading {
+    display: none;
+  }
   .footer {
     font-size: 18px;
     margin-top: 20px;
-  }
-}
-
-@media only screen and (min-width: 741px) and (max-width: 1023px) {
-  .header__menu {
-    width: 740px;
   }
 }
 
