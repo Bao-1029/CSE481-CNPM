@@ -1,13 +1,9 @@
 /* css main */
-.main {
-  width: 100%;
-  padding: 70px 0px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
 .main__source {
   font-size: 14px;
   color: #888181;
+  margin-top: 10px;
+  display: inline-block;
 }
 
 .main__news {
@@ -88,8 +84,7 @@
 .main__recent-news {
   width: 1166px;
   margin: auto;
-  margin-top: 80px;
-  padding: 5px 0px;
+  margin-top: 100px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -106,6 +101,7 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  padding: 18px 20px;
 }
 
 .main__recent-img {
@@ -118,17 +114,11 @@
   width: 180px;
   height: 110px;
   border-radius: 20px;
+  object-fit: cover;
 }
 
 .main__recent-text {
   margin-left: 38px;
-  padding: 15px 0px;
-  overflow: hidden;
-}
-
-.main__recent-text p {
-  margin: 0;
-  padding: 0;
 }
 
 .main__recent-text a {
@@ -137,19 +127,15 @@
   color: #7992A7;
   overflow: hidden;
   white-space: wrap;
+  text-overflow: ellipsis;
   display: block;
-}
-
-.main__recent-text p:after {
-  content: "......";
-  color: #7992A7;
 }
 
 .main__more {
   display: block;
   outline: none;
   border: none;
-  margin: 50px auto;
+  margin: 65px auto 30px;
   text-decoration: none;
   color: #7975E1;
   font-weight: bold;
@@ -162,15 +148,6 @@
   padding: 10px 20px;
   -webkit-box-shadow: -3px 3px 15px #ffffff, 3px 3px 15px #DFC2C2;
           box-shadow: -3px 3px 15px #ffffff, 3px 3px 15px #DFC2C2;
-}
-
-.footer {
-  text-align: center;
-  padding: 20px 0px 30px 0px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #888181;
-  font-weight: bold;
-  font-size: 20px;
 }
 
 @media only screen and (max-width: 740px) {
@@ -211,10 +188,6 @@
   }
   .main__recent-news a {
     font-size: 16px;
-  }
-  .footer {
-    font-size: 18px;
-    margin-top: 20px;
   }
 }
 
