@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 20, 2020 lúc 07:41 PM
+-- Thời gian đã tạo: Th5 06, 2020 lúc 01:27 PM
 -- Phiên bản máy phục vụ: 10.1.38-MariaDB
 -- Phiên bản PHP: 7.3.4
 
@@ -26,7 +26,7 @@ DELIMITER $$
 --
 -- Thủ tục
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_news` (`title` VARCHAR(300), `link` VARCHAR(3000), `source` TINYTEXT, `imgUri` VARCHAR(3000))  Begin
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_news` (IN `title` VARCHAR(300) CHARSET utf8mb4, IN `link` VARCHAR(3000) CHARSET utf8mb4, IN `source` TINYTEXT CHARSET utf8mb4, IN `imgUri` VARCHAR(3000) CHARSET utf8mb4)  Begin
     Declare id tinyint(3);
     Set id = f_get_source_id(source);
     Insert into news (title, link, sourceId, imgUri) Value (title, link, id, imgUri);
@@ -50,7 +50,7 @@ End$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `f_get_source_id` (`source` TINYTEXT) RETURNS TINYINT(3) Begin
     Declare id tinyint(3);
 
-    Select n.id Into id From news_detail as n
+    Select n.id Into id From news_source as n
         Where n.source = source;
 
     If id IS NULL THEN
@@ -68,6 +68,38 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `hospital_hotlines`
+--
+
+CREATE TABLE `hospital_hotlines` (
+  `id` tinyint(3) UNSIGNED NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone_number` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `hospital_hotlines`
+--
+
+INSERT INTO `hospital_hotlines` (`id`, `name`, `phone_number`) VALUES
+(1, 'Bá»‡nh viá»‡n Báº¡ch Mai', '0969.851.616'),
+(2, 'Bá»‡nh viá»‡n Nhiá»‡t Ä‘á»›i Trung Æ°Æ¡ng', '0969.241.616'),
+(3, 'Bá»‡nh viá»‡n E', '0912.168.887'),
+(4, 'Bá»‡nh viá»‡n Nhi trung Æ°Æ¡ng', '0372.884.712'),
+(5, 'Bá»‡nh viá»‡n Phá»•i trung Æ°Æ¡ng', '0967.941.616'),
+(6, 'Bá»‡nh viá»‡n Viá»‡t Nam â€“ Thá»¥y Äiá»ƒn UÃ´ng BÃ­', '0966.681.313'),
+(7, 'Bá»‡nh viá»‡n Äa khoa trung Æ°Æ¡ng ThÃ¡i NguyÃªn', '0913.394.495'),
+(8, 'Bá»‡nh viá»‡n Trung Æ°Æ¡ng Huáº¿', '0965.301.212'),
+(9, 'Bá»‡nh viá»‡n Chá»£ Ráº«y', '0969.871.010'),
+(10, 'Bá»‡nh viá»‡n Äa khoa trung Æ°Æ¡ng Cáº§n ThÆ¡', '0907.736.736'),
+(11, 'Bá»‡nh viá»‡n Xanh PÃ´n HÃ  Ná»™i', '0904.138.502'),
+(12, 'Bá»‡nh viá»‡n Vinmec HÃ  Ná»™i', '0934.472.768'),
+(13, 'Bá»‡nh viá»‡n ÄÃ  Náºµng', '0903.583.881'),
+(14, 'Bá»‡nh viá»‡n Nhiá»‡t Ä‘á»›i TP.HCM', '0967.341.010 ');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `news`
 --
 
@@ -78,6 +110,18 @@ CREATE TABLE `news` (
   `sourceId` tinyint(3) UNSIGNED NOT NULL,
   `imgUri` varchar(3000) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `news`
+--
+
+INSERT INTO `news` (`id`, `title`, `link`, `sourceId`, `imgUri`) VALUES
+(1, 'Khen thÃ†Â°Ã¡Â»ÂŸng nhÃƒÂ³m nghiÃƒÂªn cÃ¡Â»Â©u Ã¡Â»Â©ng dÃ¡Â»Â¥ng khai bÃƒÂ¡o y tÃ¡ÂºÂ¿ NCOVI phÃƒÂ²ng chÃ¡Â»Â‘ng dÃ¡Â»Â‹ch Covid-19', 'https://news.google.com/articles/CBMifWh0dHBzOi8vdGhhbmhuaWVuLnZuL2dpb2ktdHJlL2toZW4tdGh1b25nLW5ob20tbmdoaWVuLWN1dS11bmctZHVuZy1raGFpLWJhby15LXRlLW5jb3ZpLXBob25nLWNob25nLWRpY2gtY292aWQtMTktMTIwOTAwMC5odG1s0gF-aHR0cHM6Ly9tLnRoYW5obmllbi52bi9naW9pLXRyZS9raGVuLXRodW9uZy1uaG9tLW5naGllbi1jdXUtdW5nLWR1bmcta2hhaS1iYW8teS10ZS1uY292aS1waG9uZy1jaG9uZy1kaWNoLWNvdmlkLTE5LTEyMDkwMDAuYW1w?hl=vi&gl=VN&ceid=VN%3Avi', 1, 'https://lh4.googleusercontent.com/proxy/8LpwjZ40sySaWgteSbaOc7d58sol29DivkfMgIzq9yMxgfneXMTbqqynC7UzvIaNOjtRN150SZ6kb352z6CU2nmgvMSfrglhJhJrd3nzs3ZNsiPfm8cqfZsiAWASWn4=-p-h100-w100'),
+(2, 'ChÃ¡Â»Â‘ng Ã„Â‘Ã¡ÂºÂ¡i dÃ¡Â»Â‹ch COVID-19: BÃ¡ÂºÂ£n lÃ„Â©nh ViÃ¡Â»Â‡t Nam tÃ¡Â»Âa sÃƒÂ¡ng', 'https://news.google.com/articles/CBMiWGh0dHBzOi8vbGFvZG9uZy52bi90aG9pLXN1L2Nob25nLWRhaS1kaWNoLWNvdmlkLTE5LWJhbi1saW5oLXZpZXQtbmFtLXRvYS1zYW5nLTgwMDc4MC5sZG_SAQA?hl=vi&gl=VN&ceid=VN%3Avi', 3, 'https://lh4.googleusercontent.com/proxy/enonyR6kap37BeclA8_osg9lSgfdELuRJPF-OjuqznCxikaDK9qJg7VE_c5tucqZABv81-9Zi3VzDJwAu1ep9yCGzGOloMkD82ZAU6xW7BzMGTmttajXuj4SSkEFb8OT=-p-h100-w100'),
+(3, 'DÃ¡Â»Â‹ch COVID-19 chiÃ¡Â»Âu 23-4: ViÃ¡Â»Â‡t Nam 0 ca nhiÃ¡Â»Â…m mÃ¡Â»Â›i, NhÃ¡ÂºÂ­t BÃ¡ÂºÂ£n vÃ†Â°Ã¡Â»Â£t mÃ¡Â»Â‘c 12.600 ca', 'https://news.google.com/articles/CBMidWh0dHBzOi8vdHVvaXRyZS52bi9kaWNoLWNvdmlkLTE5LWNoaWV1LTIzLTQtdmlldC1uYW0tMC1jYS1uaGllbS1tb2ktbmhhdC1iYW4tdnVvdC1tb2MtMTItNjAwLWNhLTIwMjAwNDIzMTM1ODEwMTIyLmh0bdIBAA?hl=vi&gl=VN&ceid=VN%3Avi', 2, 'https://lh4.googleusercontent.com/proxy/nZ7VNcTgJy-VAwFSAHimqCCu8EqhIVsYdEkrhDWWZdeTDBb4oltyrhuuXI0BVnX2R0LJtq8Cl1fAhsmXrS9YAIzUyknaoQDCM_fTjvVM06Wx64lhXygUT5bnhYDJ-fzwnwnVBqUkqGDR4MQ4zVdvTKJW18UMSpxx1j4qJMLhsy6SeS4pWyc04FXhycYIYGQ=-p-h100-w100'),
+(4, 'ChÃ¡Â»Â‘ng Ã„Â‘Ã¡ÂºÂ¡i dÃ¡Â»Â‹ch COVID-19: BÃ¡ÂºÂ£n lÃ„Â©nh ViÃ¡Â»Â‡t Nam tÃ¡Â»Âa sÃƒÂ¡ng', 'https://news.google.com/articles/CBMiWGh0dHBzOi8vbGFvZG9uZy52bi90aG9pLXN1L2Nob25nLWRhaS1kaWNoLWNvdmlkLTE5LWJhbi1saW5oLXZpZXQtbmFtLXRvYS1zYW5nLTgwMDc4MC5sZG_SAQA?hl=vi&gl=VN&ceid=VN%3Avi', 3, 'https://lh4.googleusercontent.com/proxy/enonyR6kap37BeclA8_osg9lSgfdELuRJPF-OjuqznCxikaDK9qJg7VE_c5tucqZABv81-9Zi3VzDJwAu1ep9yCGzGOloMkD82ZAU6xW7BzMGTmttajXuj4SSkEFb8OT=-p-h100-w100'),
+(5, 'Singapore: giÃ¡Â»Â¯a dÃ¡Â»Â‹ch corona, vÃƒÂ¬ tÃƒÂ´ sÃƒÂºp mÃƒ phÃ¡ÂºÂ£i... ngÃ¡Â»Â“i tÃƒÂ¹', 'https://news.google.com/articles/CBMiamh0dHBzOi8vY3VvaS50dW9pdHJlLnZuL3Rpbi10dWMvc2luZ2Fwb3JlLWdpdWEtZGljaC1jb3JvbmEtdmktdG8tc3VwLW1hLXBoYWktbmdvaS10dS0yMDIwMDQyNDkxNzE1NzUzLmh0bWzSAQA?hl=vi&gl=VN&ceid=VN%3Avi', 2, 'https://lh3.googleusercontent.com/proxy/96Aq1VJGr70acZoy1ZGts6iyCMlIbORgwS2Y6lkdSu3ErM4LqqN0LZN0Zs_10fx8u534SONoS5zGR1V6sbEj5Q-oGafBVnK537Bk-6PyVl8o1VoYwX4IQQ=-p-h100-w100'),
+(6, 'Anh, PhÃƒÂ¡p nghi ngÃ¡Â»Â cÃƒÂ¡ch xÃ¡Â»Â­ lÃƒÂ½ cÃ¡Â»Â§a Trung QuÃ¡Â»Â‘c vÃ¡Â»Â dÃ¡Â»Â‹ch Covid-19', 'https://news.google.com/articles/CBMiZ2h0dHBzOi8vdGhhbmhuaWVuLnZuL3RoZS1naW9pL2FuaC1waGFwLW5naGktbmdvLWNhY2gteHUtbHktY3VhLXRydW5nLXF1b2MtdmUtZGljaC1jb3ZpZC0xOS0xMjEyMTY4Lmh0bWzSAWhodHRwczovL20udGhhbmhuaWVuLnZuL3RoZS1naW9pL2FuaC1waGFwLW5naGktbmdvLWNhY2gteHUtbHktY3VhLXRydW5nLXF1b2MtdmUtZGljaC1jb3ZpZC0xOS0xMjEyMTY4LmFtcA?hl=vi&gl=VN&ceid=VN%3Avi', 4, 'https://lh5.googleusercontent.com/proxy/csWWDvuguXnEZGZ69uRRNpkUs-geSMPTqVPkVFtf7-LkK7t15jMqwb4RDHI-pvkH0mIZVnz1eiDaMtaAdkL424lju1Pq9RLY1-rd8XYMZzx9W4_ggLXfBaoYGVrp=-p-h100-w100');
 
 -- --------------------------------------------------------
 
@@ -104,6 +148,16 @@ CREATE TABLE `news_source` (
   `source` tinytext COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `news_source`
+--
+
+INSERT INTO `news_source` (`id`, `source`) VALUES
+(1, 'BÃƒÂ¡o Thanh NiÃƒÂªn'),
+(2, 'TuÃ¡Â»Â•i TrÃ¡ÂºÂ» Online'),
+(3, 'BÃƒÂ¡o Lao Ã„ÂÃ¡Â»Â™ng'),
+(4, 'Game - BÃƒÂ¡o Thanh NiÃƒÂªn');
+
 -- --------------------------------------------------------
 
 --
@@ -111,12 +165,19 @@ CREATE TABLE `news_source` (
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+  `id` tinyint(3) UNSIGNED NOT NULL,
   `userName` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` tinytext COLLATE utf8mb4_unicode_ci NOT NULL,
   `level` tinyint(4) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `users`
+--
+
+INSERT INTO `users` (`id`, `userName`, `password`, `level`, `status`) VALUES
+(1, 'admin', '$2y$10$gZfmlD/1e.dWoAnsHiJw1.5EuPBJgyXvg/5ze/WtZPSx.K30YvpOi', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -130,6 +191,12 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 -- Chỉ mục cho các bảng đã đổ
 --
+
+--
+-- Chỉ mục cho bảng `hospital_hotlines`
+--
+ALTER TABLE `hospital_hotlines`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `news`
@@ -156,10 +223,28 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT cho bảng `hospital_hotlines`
+--
+ALTER TABLE `hospital_hotlines`
+  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
 -- AUTO_INCREMENT cho bảng `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT cho bảng `news_source`
+--
+ALTER TABLE `news_source`
+  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

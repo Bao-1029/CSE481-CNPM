@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- phpMyAdmin XML Dump
+- version 4.8.5
+- https://www.phpmyadmin.net
+-
+- Máy chủ: 127.0.0.1
+- Thời gian đã tạo: Th5 05, 2020 lúc 05:43 AM
+- Phiên bản máy phục vụ: 10.1.38-MariaDB
+- Phiên bản PHP: 7.3.4
+-->
+
+<pma_xml_export version="1.0" xmlns:pma="https://www.phpmyadmin.net/some_doc_url/">
+    <!--
+    - Structure schemas
+    -->
+    <pma:structure_schemas>
+        <pma:database name="cnpm_coronavirus" collation="utf8mb4_unicode_ci" charset="utf8mb4">
+            <pma:table name="hospital_hotlines">
+                CREATE TABLE `hospital_hotlines` (
+                  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+                  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+                  `phone_number` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+            </pma:table>
+            <pma:function name="f_get_latest_title_news">
+                CREATE DEFINER=`root`@`localhost` FUNCTION `f_get_latest_title_news`() RETURNS varchar(300) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci
+                Begin
+                	Declare tt varchar(300);
+                    Set tt = (Select title From news_detail
+                        Where id = (Select MAX(id) From news_detail));
+                    Return tt;
+                End
+            </pma:function>
+            <pma:function name="f_get_source_id">
+                CREATE DEFINER=`root`@`localhost` FUNCTION `f_get_source_id`(`source` TINYTEXT) RETURNS tinyint(3)
+                Begin
+                    Declare id tinyint(3);
+                
+                    Select n.id Into id From news_source as n
+                        Where n.source = source;
+                
+                    If id IS NULL THEN
+                        Begin
+                            Insert into news_source (source) Value (source);
+                            Set id = (SELECT LAST_INSERT_ID());
+                        End;
+                    End if;
+                
+                    return id;
+                End
+            </pma:function>
+            <pma:procedure name="sp_insert_news">
+                CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_news`(IN `title` VARCHAR(300) CHARSET utf8mb4, IN `link` VARCHAR(3000) CHARSET utf8mb4, IN `source` TINYTEXT CHARSET utf8mb4, IN `imgUri` VARCHAR(3000) CHARSET utf8mb4)
+                Begin
+                    Declare id tinyint(3);
+                    Set id = f_get_source_id(source);
+                    Insert into news (title, link, sourceId, imgUri) Value (title, link, id, imgUri);
+                End
+            </pma:procedure>
+            <pma:procedure name="sp_select_news">
+                CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_news`(num_offset smallint, num_limit smallint)
+                Begin
+                    Select title, link, source, imgUri From news_detail
+                        Order by id Desc Limit num_limit Offset num_offset;
+                End
+            </pma:procedure>
+        </pma:database>
+    </pma:structure_schemas>
+
+    <!--
+    - Cơ sở dữ liệu: 'cnpm_coronavirus'
+    -->
+    <database name="cnpm_coronavirus">
+        <!-- Bảng hospital_hotlines -->
+        <table name="hospital_hotlines">
+            <column name="id">1</column>
+            <column name="name">Bệnh viện Bạch Mai</column>
+            <column name="phone_number">0969.851.616</column>
+        </table>
+        <table name="hospital_hotlines">
+            <column name="id">2</column>
+            <column name="name">Bệnh viện Nhiệt đới Trung ương</column>
+            <column name="phone_number">0969.241.616</column>
+        </table>
+        <table name="hospital_hotlines">
+            <column name="id">3</column>
+            <column name="name">Bệnh viện E</column>
+            <column name="phone_number">0912.168.887</column>
+        </table>
+        <table name="hospital_hotlines">
+            <column name="id">4</column>
+            <column name="name">Bệnh viện Nhi trung ương</column>
+            <column name="phone_number">0372.884.712</column>
+        </table>
+        <table name="hospital_hotlines">
+            <column name="id">5</column>
+            <column name="name">Bệnh viện Phổi trung ương</column>
+            <column name="phone_number">0967.941.616</column>
+        </table>
+        <table name="hospital_hotlines">
+            <column name="id">6</column>
+            <column name="name">Bệnh viện Việt Nam – Thụy Điển Uông Bí</column>
+            <column name="phone_number">0966.681.313</column>
+        </table>
+        <table name="hospital_hotlines">
+            <column name="id">7</column>
+            <column name="name">Bệnh viện Đa khoa trung ương Thái Nguyên</column>
+            <column name="phone_number">0913.394.495</column>
+        </table>
+        <table name="hospital_hotlines">
+            <column name="id">8</column>
+            <column name="name">Bệnh viện Trung ương Huế</column>
+            <column name="phone_number">0965.301.212</column>
+        </table>
+        <table name="hospital_hotlines">
+            <column name="id">9</column>
+            <column name="name">Bệnh viện Chợ Rẫy</column>
+            <column name="phone_number">0969.871.010</column>
+        </table>
+        <table name="hospital_hotlines">
+            <column name="id">10</column>
+            <column name="name">Bệnh viện Đa khoa trung ương Cần Thơ</column>
+            <column name="phone_number">0907.736.736</column>
+        </table>
+        <table name="hospital_hotlines">
+            <column name="id">11</column>
+            <column name="name">Bệnh viện Xanh Pôn Hà Nội</column>
+            <column name="phone_number">0904.138.502</column>
+        </table>
+        <table name="hospital_hotlines">
+            <column name="id">12</column>
+            <column name="name">Bệnh viện Vinmec Hà Nội</column>
+            <column name="phone_number">0934.472.768</column>
+        </table>
+        <table name="hospital_hotlines">
+            <column name="id">13</column>
+            <column name="name">Bệnh viện Đà Nẵng</column>
+            <column name="phone_number">0903.583.881</column>
+        </table>
+        <table name="hospital_hotlines">
+            <column name="id">14</column>
+            <column name="name">Bệnh viện Nhiệt đới TP.HCM</column>
+            <column name="phone_number">0967.341.010 </column>
+        </table>
+    </database>
+</pma_xml_export>
