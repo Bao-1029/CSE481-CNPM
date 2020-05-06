@@ -22,9 +22,9 @@ return function (ContainerBuilder $containerBuilder) {
         ],
         'database' => [
             'host' => 'localhost',
-            'dbname' => 'cnpm_coronavirus',
-            'user' => 'root',
-            'password' => '',
+            'dbname' => 'id13393536_cnpm_coronavirus',
+            'user' => 'id13393536_root',
+            'password' => 'N#f9VKsI)<Ztf6?Q',
             'charset' => 'utf8mb4',
         ],
         'resources' => [
