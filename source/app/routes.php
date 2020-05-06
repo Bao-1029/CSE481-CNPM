@@ -16,6 +16,8 @@ use App\Application\Actions\Page\HomePageAction;
 use App\Application\Actions\Page\NewsPageAction;
 use App\Application\Actions\Page\SymptomsPageAction;
 use App\Application\Actions\Page\PrecautionPageAction;
+use App\Application\Actions\Statistics\StatisticsAction;
+use App\Application\Middleware\AuthMiddleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Container\ContainerInterface;
@@ -42,7 +44,7 @@ return function (App $app) {
         $group->get('bieu-hien-benh', SymptomsPageAction::class);
         $group->get('cach-phong-tranh', PrecautionPageAction::class);
         $group->get('login', LoginPageAction::class);
-        $group->get('dashboard', DashboardPageAction::class);
+        $group->get('dashboard', DashboardPageAction::class)->add(new AuthMiddleware());
         $group->get('', HomePageAction::class);
     });
     /*  $app->group('/page', function (Group $group) {
@@ -64,14 +66,16 @@ return function (App $app) {
     $app->group('/hotline', function (Group $group) {
         $group->get('/all', ListHotlineAction::class);
         $group->post('/add', AddHotlineAction::class);
-        $group->put('/edit', EditHotlineAction::class);
-        $group->delete('/remove', RemoveHotlineAction::class);
+        $group->post('/edit', EditHotlineAction::class);
+        $group->post('/remove', RemoveHotlineAction::class);
+    })->add(new AuthMiddleware());
+
+    $app->group('/user', function (Group $group) {
+        $group->post('/login', UserLoginAction::class);
+        $group->post('/logout', UserLogoutAction::class);
     });
 
-    $app->group('/api/user', function (Group $group) {
-        $group->post('/login', UserLoginAction::class);
-        $group->delete('/logout', UserLogoutAction::class);
-    });
+    $app->get('/api/statistics', StatisticsAction::class);
 
     $app->group('/api/news', function (Group $group) {
         /**

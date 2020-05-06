@@ -18,6 +18,7 @@ return function (ContainerBuilder $containerBuilder) {
         'storage' => [
             'news_path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../storage/news',
             'config' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../config/newsSerivce.ini',
+            'statistics' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../storage/statistics',
         ],
         'database' => [
             'host' => 'localhost',
