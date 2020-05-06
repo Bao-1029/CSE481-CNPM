@@ -21,10 +21,10 @@
             <ul class="header__menu-content" id="menu">
                
                 <svg class="header__close-menu" id="close-menu" onclick="closeMenu()" xmlns="http://www.w3.org/2000/svg" fill="red"  width="26" height="26" viewBox="0 0 18 18"><path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"/></svg>
-                <li class="header__menu-list header__menu-list--active"><a class="header__menu-text" href="">Trang chủ</a></li>
-                <li class="header__menu-list"><a class="header__menu-text" href="">Tin Tức</a></li>
-                <li class="header__menu-list"><a class="header__menu-text" href="">Biểu hiện bệnh</a></li>
-                <li class="header__menu-list"><a class="header__menu-text" href="">Cách phòng tránh</a></li>
+                <li class="header__menu-list header__menu-list--active"><a class="header__menu-text" href="index.html">Trang chủ</a></li>
+                <li class="header__menu-list"><a class="header__menu-text" href="news.html">Tin Tức</a></li>
+                <li class="header__menu-list"><a class="header__menu-text" href="symptoms.html">Biểu hiện bệnh</a></li>
+                <li class="header__menu-list"><a class="header__menu-text" href="solution.html">Cách phòng tránh</a></li>
                 <li class="header__menu-list"><a class="header__menu-text" href="">Trắc nghiệm</a></li>
             </ul>
         </div>
@@ -409,7 +409,7 @@
             <table>
                 <tr>
                     <th>Triệu chứng</th>
-                    <th>COVID-19</th>
+                    <th style="color: red;">COVID-19</th>
                     <th>Cảm lạnh thông thường</th>
                     <th>Cúm</th>
                     <th>Dị ứng</th>
@@ -423,11 +423,75 @@
                    
                 </tr>
                 <tr>
-                    <td>Sốt</td>
+                    <td>Ho khan</td>
                     <td>Phổ biến</td>
+                    <td>Vừa phải</td>
+                    <td>Phổ biến</td>
+                    <td>Đôi khi</td>
+                   
+                </tr>
+                <tr>
+                    <td>Khó thở</td>
+                    <td>Phổ biến</td>
+                    <td>Không</td>
+                    <td>Không</td>
+                    <td>Phổ biến</td>
+                   
+                </tr>
+                <tr>
+                    <td>Đau đầu</td>
+                    <td>Đôi khi</td>
+                    <td>Hiếm</td>
+                    <td>Phổ biến</td>
+                    <td>Không</td>
+                   
+                </tr>
+                <tr>
+                    <td>Đau nhức khó chịu trong cở thể</td>
+                    <td>Đôi khi</td>
+                    <td>Phổ biến</td>
+                    <td>Phổ biến</td>
+                    <td>Không</td>
+                   
+                </tr>
+                <tr>
+                    <td>Đau họng</td>
+                    <td>Đôi khi</td>
+                    <td>Phổ biến</td>
+                    <td>Phổ biến</td>
+                    <td>Không</td>
+                   
+                </tr>
+                <tr>
+                    <td>Mệt mỏi</td>
+                    <td>Đôi khi</td>
+                    <td>Đôi khi</td>
+                    <td>Phổ biến</td>
+                    <td>Đôi khi</td>
+                   
+                </tr>
+                <tr>
+                    <td>Tiêu chảy</td>
+                    <td>Hiếm</td>
+                    <td>Không</td>
+                    <td>Đôi khi</td>
+                    <td>Không</td>
+                   
+                </tr>
+                <tr>
+                    <td>Sổ mũi</td>
                     <td>Hiếm</td>
                     <td>Phổ biến</td>
                     <td>Đôi khi</td>
+                    <td>Phổ biến</td>
+                   
+                </tr>
+                <tr>
+                    <td>Hắt hơi</td>
+                    <td>Không</td>
+                    <td>Phổ biến</td>
+                    <td>Không</td>
+                    <td>Phổ biến</td>
                    
                 </tr>
             </table>
@@ -437,6 +501,84 @@
     <footer class="footer">
         <p>A project by 59Th2 | Thuy Loi University</p>
     </footer>
+    <div class="main__contact">
+       
+        <div class="main__back"><span class="main__back-text">Về đầu trang</span><svg xmlns="http://www.w3.org/2000/svg" width="35.761" height="21.33" viewBox="0 0 35.761 21.33">
+            <g id="Collapse_Arrow_Material_Rounded_24_white" data-name="Collapse Arrow_Material Rounded_24_white" transform="translate(-88.027 -93.995)">
+              <g id="Group_14" data-name="Group 14" transform="translate(88.027 93.995)">
+                <path id="Path_129" data-name="Path 129" d="M56.9,53.2,69.028,65.327a3.368,3.368,0,0,0,4.763-4.763L59.14,45.915a3.171,3.171,0,0,0-4.49,0L40,60.565a3.368,3.368,0,1,0,4.763,4.763L56.9,53.2" transform="translate(-39.015 -44.983)" fill="#fff"/>
+              </g>
+            </g>
+          </svg>
+          </div>
+        <div class="main__contact-phone"> <span class="main__contact-title">HotLine</span><svg  onclick="nameHospital()" id="icon-phone" fill="white" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24"><path d="M20 22.621l-3.521-6.795c-.008.004-1.974.97-2.064 1.011-2.24 1.086-6.799-7.82-4.609-8.994l2.083-1.026-3.493-6.817-2.106 1.039c-7.202 3.755 4.233 25.982 11.6 22.615.121-.055 2.102-1.029 2.11-1.033z"/></svg></div>
+        <div class=" main__contact-mess"><svg width="34" height="34" xmlns="http://www.w3.org/2000/svg" fill-rule="" fill="white" clip-rule="evenodd"><path d="M12 0c-6.627 0-12 4.975-12 11.111 0 3.497 1.745 6.616 4.472 8.652v4.237l4.086-2.242c1.09.301 2.246.464 3.442.464 6.627 0 12-4.974 12-11.111 0-6.136-5.373-11.111-12-11.111zm1.193 14.963l-3.056-3.259-5.963 3.259 6.559-6.963 3.13 3.259 5.889-3.259-6.559 6.963z"/></svg></div>
+    </div>
+    <div class="main__content-hotline" id="content-hotline">
+             
+        <svg class="main__close-hotline" id="close-hotline" onclick="closeHospital()" fill="red"  xmlns="http://www.w3.org/2000/svg" width="24" height="24"  viewBox="0 0 18 18"><path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"/></svg>
+        
+       <p class="main__hotline-title">Đường dây nóng (miễn phí)</p>
+       <p class="main__hotline-free">1900 9095 và 1900 3228</p>
+       <p class="main__hotline-21">21 đường dây nóng của các bệnh viện</p>
+       <form action="" class="main__hotline-search">
+           <button type="submit">
+               <svg width="20" height="20" fill="#7975E1" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M15.853 16.56c-1.683 1.517-3.911 2.44-6.353 2.44-5.243 0-9.5-4.257-9.5-9.5s4.257-9.5 9.5-9.5 9.5 4.257 9.5 9.5c0 2.442-.923 4.67-2.44 6.353l7.44 7.44-.707.707-7.44-7.44zm-6.353-15.56c4.691 0 8.5 3.809 8.5 8.5s-3.809 8.5-8.5 8.5-8.5-3.809-8.5-8.5 3.809-8.5 8.5-8.5z"/></svg>
+           </button>
+           <input id="myInput" onkeyup="myFunction()" type="text" name="search-hospital" placeholder="Nhập tên bệnh viện" required>
+       </form>
+       <div class="main__hotline-list">
+        <ul class="main__hospital-menu" id="ulHos">
+            <li><span>Tên bệnh viện</span><span>Số điện thoại</span></li>
+            <li><span>Bệnh viện Bạch Mai</span><span>0696700400</span></li>
+            <li><span>Bệnh viện Y</span><span>0353353190</span></li>
+        </ul>
+           <div class="main__hospital-more">
+               <p>Bệnh viện Bạch Mai: 0969.851.616</p>
+               <p>Bệnh viện Nhiệt đới Trung ương: 0969.241.616
+               </p>
+               <p>Bệnh viện E: 0912.168.887
+               </p>
+               <p>Bệnh viện Nhi trung ương: 0372.884.712
+               </p>
+               <p>Bệnh viện Phổi trung ương: 0967.941.616
+               </p>
+               <p>Bệnh viện Việt Nam – Thụy Điển Uông Bí: 0966.681.313
+               </p>
+               <p>Bệnh viện Đa khoa trung ương Thái Nguyên: 0913.394.495
+               </p>
+               <p>Bệnh viện Trung ương Huế: 0965.301.212
+               </p>
+               <p>Bệnh viện Chợ Rẫy: 0969.871.010
+               </p>
+               <p>Bệnh viện Đa khoa trung ương Cần Thơ: 0907.736.736
+               </p>
+               <p>Bệnh viện Xanh Pôn Hà Nội: 0904.138.502
+               </p>
+               <p>Bệnh viện Vinmec Hà Nội: 0934.472.768
+               </p>
+               <p>Bệnh viện Đà Nẵng: 0903.583.881 
+               </p>
+               <p>Bệnh viện Nhiệt đới TP.HCM: 0967.341.010 
+    
+               </p>
+               <p>Bệnh viện Nhi đồng 1: 0913.117.965
+               </p>
+               <p>Bệnh viện Nhi đồng 2: 0798.429.841
+               </p>
+               <p>Bệnh viện Đa khoa tỉnh Đồng Nai: 0819.634.807
+               </p>
+               <p>Bệnh viện Nhiệt đới Khánh Hòa: 0913.464.257
+               </p>
+               <p>Bệnh viện Đa khoa tỉnh Khánh Hòa: 0965.371.515
+               </p>
+               <p>Bệnh viện Đa khoa tỉnh Thái Bình: 0989.506.515
+               </p>
+               <p>Bệnh viện Đa khoa tỉnh Lạng Sơn: 0396.802.226</p>
+               
+           </div>
+       </div>        
+    </div>
    
 </body>
 

@@ -7,6 +7,7 @@
     case 'home': ?>
         <script src="js/statistics.js" type="module"></script>
     <?php
+        break;
     case 'news': ?>
         <script src="js/news.js" type="module"></script>
 <?php endswitch; ?>

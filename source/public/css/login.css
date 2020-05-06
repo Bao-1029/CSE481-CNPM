@@ -1,0 +1,74 @@
+.main {
+  max-width: 1166px;
+  margin: auto;
+}
+
+.main__login {
+  width: 410px;
+  margin: auto;
+}
+
+.main__login-form {
+  width: 100%;
+  border-radius: 40px;
+  -webkit-box-shadow: -20px -20px 60px #ffffff, 20px 20px 60px #cbcbcb;
+          box-shadow: -20px -20px 60px #ffffff, 20px 20px 60px #cbcbcb;
+  padding: 38px 0px;
+}
+
+.main__title {
+  font-size: 18px;
+  color: #b77086;
+  text-align: center;
+  margin-top: 38px;
+}
+
+.main label {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 16px;
+  color: #416F94;
+  margin-top: 28px;
+}
+
+.main input {
+  width: 287px;
+  height: 38px;
+  color: #7975E1;
+  font-size: 16px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 500;
+  letter-spacing: 4px;
+  display: block;
+  padding: 0px 0px 0px 5px;
+  margin: auto;
+  margin-top: 10px;
+  border-radius: 19px;
+  outline: none;
+  border: none;
+}
+
+.main button {
+  width: 119px;
+  height: 38px;
+  display: block;
+  margin: auto;
+  margin-top: 47px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 19px;
+  color: #7975E1;
+  outline: none;
+  border: none;
+  -webkit-box-shadow: -3px -3px 15px #ffffff, 3px 3px 15px #DFC2C2;
+          box-shadow: -3px -3px 15px #ffffff, 3px 3px 15px #DFC2C2;
+  transition: box-shadow .2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+}
+
+.main button:active {
+  box-shadow: inset -3px -3px 15px #ffffff,
+              inset 3px 3px 15px #DFC2C2;
+}

@@ -1,6 +1,14 @@
 <?php
 declare(strict_types=1);
 
+use App\Application\Actions\AdminPage\DashboardPageAction;
+use App\Application\Actions\AdminPage\LoginPageAction;
+use App\Application\Actions\Hotline\AddHotlineAction;
+use App\Application\Actions\Hotline\EditHotlineAction;
+use App\Application\Actions\Hotline\ListHotlineAction;
+use App\Application\Actions\Hotline\RemoveHotlineAction;
+use App\Application\Actions\User\UserLoginAction;
+use App\Application\Actions\User\UserLogoutAction;
 use App\Application\Actions\News\HeadlinesAction;
 use App\Application\Actions\News\NewsPaginationAction;
 use App\Application\Actions\News\AllNewsAction;
@@ -8,14 +16,14 @@ use App\Application\Actions\Page\HomePageAction;
 use App\Application\Actions\Page\NewsPageAction;
 use App\Application\Actions\Page\SymptomsPageAction;
 use App\Application\Actions\Page\PrecautionPageAction;
-
+use App\Application\Actions\Statistics\StatisticsAction;
+use App\Application\Middleware\AuthMiddleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 use Slim\Exception\HttpNotFoundException;
-use Slim\Views\PhpRenderer;
 
 
 return function (App $app) {
@@ -24,13 +32,22 @@ return function (App $app) {
         return $response;
     }); */
     $app->group('/', function (Group $group) {
+        // Allow preflight requests
+        // Due to the behaviour of browsers when sending a request,
+        // you must add the OPTIONS method. Read about preflight.
+        $group->options('trang-chu', function (Request $request, Response $response): Response {
+            // Do nothing here. Just return the response.
+            return $response;
+        });
         $group->get('trang-chu', HomePageAction::class);
         $group->get('tin-tuc', NewsPageAction::class);
         $group->get('bieu-hien-benh', SymptomsPageAction::class);
         $group->get('cach-phong-tranh', PrecautionPageAction::class);
+        $group->get('login', LoginPageAction::class);
+        $group->get('dashboard', DashboardPageAction::class)->add(new AuthMiddleware());
         $group->get('', HomePageAction::class);
     });
-   /*  $app->group('/page', function (Group $group) {
+    /*  $app->group('/page', function (Group $group) {
         $group->get('/', function (Request $request, Response $response) {
             $path_to_temp = $c->get('resources')['template'];
             $path_to_view = $c->get('resources')['views'];
@@ -45,6 +62,20 @@ return function (App $app) {
         $group->get('/bieu-hien-benh', SymptomsPageAction::class);
         $group->get('/cach-phong-tranh', PrecautionPageAction::class);
     }); */
+
+    $app->group('/hotline', function (Group $group) {
+        $group->get('/all', ListHotlineAction::class);
+        $group->post('/add', AddHotlineAction::class);
+        $group->post('/edit', EditHotlineAction::class);
+        $group->post('/remove', RemoveHotlineAction::class);
+    })->add(new AuthMiddleware());
+
+    $app->group('/user', function (Group $group) {
+        $group->post('/login', UserLoginAction::class);
+        $group->post('/logout', UserLogoutAction::class);
+    });
+
+    $app->get('/api/statistics', StatisticsAction::class);
 
     $app->group('/api/news', function (Group $group) {
         /**

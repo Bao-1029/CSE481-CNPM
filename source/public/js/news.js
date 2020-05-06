@@ -1,18 +1,31 @@
-import { createElement, createGroupItem, mandatory } from './helpers.js';
+import { createElement, createGroupItem, mandatory, utf8Decode } from './helpers.js';
 
-function initView(data) {
-    const main = document.querySelector('');
+const loading = document.querySelector('.main__icon-loading');
+let load_num = 0, 
+    isFirstLoad = true;
+
+async function initView() {
+    const data = await getNews('all');
+    let headlines = data.headlines;
+    const featuredNews = headlines.shift(),
+        relatedNews = headlines,
+        otherNews = data.news,
+        main = document.querySelector('.main'),
         fragment = new DocumentFragment();
-    fragment.appendChild(createHotlines(data));
-    fragment.appendChild(createOtherNews(data));
+    fragment.appendChild(createHotlines(featuredNews, relatedNews));
+    fragment.appendChild(createOtherNews(otherNews));
 
-    const btn_more = createElement('button', {
-        events: {
-            'click': loadOtherNews(fragment.querySelector('.main__recent-news'), getNews())
+    const frag_recent = fragment.querySelector('.main__recent-news'),
+        btn_more = createElement('button', {
+            class: 'main__more',
+            html: '<span>Xem thêm</span>',
+            events: {
+                click: loadOtherNews.bind(this, frag_recent),
         }
-    })
+    });
     fragment.appendChild(btn_more);
-    main.appendChild(fragment);
+    loading.style.display = 'none';
+    main.insertBefore(fragment, loading);
 }
 
 function createHotlines(featuredData = mandatory(), relatedData = mandatory()) {
@@ -33,11 +46,11 @@ function createFeaturedNews(data = mandatory()) {
             html: `<img src="${imgUri}" alt="">`
         }),
         p = createElement('p', {
-            html: title
+            html: `<a href="${link}">${utf8Decode(title)}</a>`
         }),
         span = createElement('span', {
             class: 'main__source',
-            text: source
+            text: utf8Decode(source)
         }),
         news = createElement('div', {
             class: 'main__featured-news',
@@ -52,11 +65,11 @@ function createRelatedNews(data = mandatory()) {
         }, data, function(item) {
             const { title, source, link: href } = item,
                 p = createElement('p', {
-                    html: `<a href="${href}">${title}</a>`
+                    html: `<a href="${href}">${utf8Decode(title)}</a>`
                 }),
                 span = createElement('span', {
                     class: 'main__source',
-                    text: source
+                    text: utf8Decode(source)
                 }),
                 div = createElement('div', {
                     class: 'main__related-content',
@@ -67,44 +80,70 @@ function createRelatedNews(data = mandatory()) {
 }
 
 function createOtherNews(data = mandatory()) {
-    return createGroupItem('div', {
-        class: 'main__recent-news'
-    }, data, createOtherNewsItem);
+    if (isFirstLoad) {
+        isFirstLoad = false;
+        return createGroupItem('div', {
+            class: 'main__recent-news'
+        }, data, createOtherNewsItem);
+    } else {
+        const fragment = new DocumentFragment();
+        data.forEach(d => {
+            const row = createOtherNewsItem(d);
+            fragment.appendChild(row)
+        });
+        return fragment;
+    }
 }
 
 function createOtherNewsItem(item) {
     const { title, source, link, imgUri } = item,
-    img = createElement('div', {
+        img = createElement('div', {
             class: 'main__recent-img',
             html: `<a href="${link}"><img src="${imgUri}" alt=""></a>`
         }),
         p = createElement('p', {
-            html: `<a href="${href}">${title}</a>`
+            html: `<a href="${link}">${utf8Decode(title)}</a>`
         }),
         span = createElement('span', {
             class: 'main__source',
-            text: source
+            text: utf8Decode(source)
         }),
         text = createElement('span', {
             class: 'main__recent-text',
             nodes: [p, span]
         }),
         div = createElement('div', {
-            class: 'main__recent-text',
+            class: 'main__recent-content',
             nodes: [img, text]
         });
     return div;
 }
 
-function loadOtherNews(node, data) {
-    
+function loadOtherNews(node) {
+    // console.log("loadOtherNews -> this 1: ", this); undefined
+    const this_btn = event.target;
+    loading.style.display = 'block';
+    this_btn.style.display = 'none';
+    getNews(load_num).then(d => {
+        if (d.length == 0) {
+            this_btn.remove();
+            loading.style.display = 'none';
+            return;
+        }
+
+        node.appendChild(createOtherNews(d))
+        // console.log("loadOtherNews -> this 2: ", this); undefined
+        loading.style.display = 'none';
+        this_btn.style.display = 'block';
+    });
+    load_num++;
 }
 
 /**
  * @returns json data
  */
 function getNews(param) {
-    fetch(`/api/news/${param}`, {
+    return fetch(`/api/news/${param}`, {
         method: 'GET'
     })
     .then(response => {
@@ -114,9 +153,12 @@ function getNews(param) {
         }
         return response.json();
     })
+    .then(json => {
+        return json.data;
+    })
     .catch(err =>
         console.log('Request failed', err)
     );
 }
 
-initView(getNews('all'));
+initView();
