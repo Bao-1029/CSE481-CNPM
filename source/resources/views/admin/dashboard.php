@@ -2,9 +2,9 @@
     <div class="main__top">
         <h2 class="main__title">Danh sách đường dây nóng của các bệnh viện</h2>
         <div class="main__search">
-            <form action="">
-                <input type="text" name="search" id="sch" placeholder="Nhập tên tỉnh" required>
-                <button type="submit">
+            <form>
+                <input type="text" name="search" id="search" placeholder=" Nhập tên tỉnh" required>
+                <i>
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="15" height="15" viewBox="0 0 15 15">
                         <defs>
                             <clipPath id="clip-path">
@@ -15,7 +15,7 @@
                             <path id="icons8-search_iOS_Glyph" data-name="icons8-search_iOS Glyph" d="M11.574,5.621a5.953,5.953,0,1,0,3.763,10.558l3.554,3.554a.6.6,0,1,0,.842-.842l-3.554-3.554a5.946,5.946,0,0,0-4.605-9.716Zm0,1.191a4.762,4.762,0,1,1-4.762,4.762A4.753,4.753,0,0,1,11.574,6.812Z" transform="translate(-5.621 -5.621)" fill="rgba(121,117,225,0.7)" />
                         </g>
                     </svg>
-                </button>
+                </i>
             </form>
         </div>
         <button class="main__add">
@@ -35,11 +35,14 @@
     </div>
     <div class="main__table">
         <table>
-            <tr>
-                <th>Tên bệnh viện</th>
-                <th>Số điện thoại</th>
-                <th>Hành động</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Tên bệnh viện</th>
+                    <th>Số điện thoại</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
         </table>
     </div>
 </main>

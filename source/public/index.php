@@ -63,7 +63,7 @@ $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
 $shutdownHandler = new ShutdownHandler($request, $errorHandler, $displayErrorDetails);
 register_shutdown_function($shutdownHandler);
 
-$app->add(\App\Application\Middleware\CorsMiddleware::class);
+// $app->add(\App\Application\Middleware\CorsMiddleware::class);
 $app->add(new \Slim\Middleware\Session([
 	'autorefresh' => true,
 	'lifetime' => '1 hour'
@@ -116,6 +116,11 @@ $crawler = $client->request('GET', 'https://ncov.moh.gov.vn/dong-thoi-gian', [],
 $this->crawler->filter('.timeline-sec .timeline-content')->each(function (Crawler $node) {
 	array_push($this->result, $node->text());
 });
+var_dump($result);
+
+
+$crawler = $client->request('GET', 'https://maps.vnpost.vn/app/api/democoronas/');
+$result = $crawler->filter('body')->text();
 var_dump($result);
 */
 ?>

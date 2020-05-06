@@ -8,7 +8,7 @@
             <link rel="stylesheet" href="css/login.css">
         <?php
             break;
-        case 'news': ?>
+        case 'dashboard': ?>
             <link rel="stylesheet" href="css/dashboard.css">
     <?php endswitch; ?>
 </head>

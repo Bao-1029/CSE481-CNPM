@@ -203,7 +203,7 @@
                 <td>Không</td>
             </tr>
             <tr>
-                <td>Đau nhức khó chịu trong cở thể</td>
+                <td>Đau nhức khó chịu trong cơ thể</td>
                 <td>Đôi khi</td>
                 <td>Phổ biến</td>
                 <td>Phổ biến</td>

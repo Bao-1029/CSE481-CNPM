@@ -11,16 +11,14 @@
             <li class="header__item active"><a href="." class="header__menu-text">Đường dây nóng</a></li>
             <li class="header__item"><a href="https://docs.google.com/forms/d/1viZUBuT2cEf8BNCwWF4uXH4jZx-KUDkTQ8dReCvi89U/edit" class="header__menu-text">Câu hỏi trắc nghiệm</a></li>
             <li class="header__item"><a href="https://www.tidio.com/panel" class="header__menu-text">Chatbot</a></li>
-            <li class="header-item"><a href=""><?= $account; ?></a></li>
-            <li class="header-item"><a href="">Đăng xuất</a></li>
+            <li class="header-item"><?= $account; ?></li>
+            <li class="header-item" id="item-logout">Đăng xuất</li>
             <svg class="header__close-menu" id="close-menu" xmlns="http://www.w3.org/2000/svg" fill="red"  width="26" height="26" viewBox="0 0 18 18"><path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"/></svg>
         </ul>
     </div>
     <div class="header__acount">
-        <ul>
-            <li><a href=""><?= $account; ?></a></li>
-            <li><a href="">Đăng xuất</a></li>
-        </ul>
+        <span><?= $account; ?></span>
+        <button id="btn-logout">Đăng xuất</button>
     </div>
     <?php endif; ?>
 </header>
