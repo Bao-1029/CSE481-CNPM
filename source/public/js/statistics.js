@@ -1,11 +1,26 @@
-import { createElement, mandatory, summaryDataObj } from './helpers.js';
+import {
+    createElement,
+    mandatory,
+    summaryArrayObj,
+    totalizeObjs,
+    getData,
+    filterElements
+} from './helpers.js';
+
+const props = ['number', 'doubt', 'recovered', 'deaths'];
 
 function initView(data, currentGeo, lastUpdate) {
     const main = document.querySelector('.main'),
-        loading = document.querySelector('.main__icon-loading');
+        loading = document.querySelector('.main__icon-loading'),
         fragment = new DocumentFragment();
     fragment.appendChild(createMainComponent(data, currentGeo, lastUpdate));
+    fragment.appendChild(createIllustration());
+    fragment.appendChild(createSearch());
     fragment.appendChild(createTableData(data));
+
+    const table = fragment.querySelector('.main__table-data tbody');
+    fragment.getElementById('search').addEventListener('keyup', filterElements.bind(this, table, 'tr'));
+
     main.removeChild(loading);
     main.appendChild(fragment);
 }
@@ -19,7 +34,7 @@ function createMainComponent(data = mandatory(), currentGeo = 'Hà Nội', lastU
     const main = createElement('div', {
             class: 'main__data',
             html: `<div class="main__title">
-                    <span>Thống kê tình hình dịch bệnh <br> Covid-19 tại Việt Nam</span>
+                    <span>Thống kê tình hình dịch bệnh <wbr> Covid-19 tại Việt Nam</span>
                 </div>`
         }),
         main_data = createElement('div', {
@@ -31,35 +46,40 @@ function createMainComponent(data = mandatory(), currentGeo = 'Hà Nội', lastU
         }),
         config = [
             {
-                class: 'main__data-vn',
-                city: 'Việt Nam',
-                data: data[city]
+                class: 'main__data-hn',
+                child_class: 'main__data-numberhn',
+                city: currentGeo,
+                data: data[currentGeo]
             },
             {
-                class: 'main__data-hn',
-                city: currentGeo,
-                data: data[city]
-            },
+                class: 'main__data-vn',
+                child_class: 'main__data-numbervn',
+                city: 'Việt Nam',
+                data: totalizeObjs(data, props)
+            }
         ];
 
     config.forEach(cfg => {
-        const { c, city , data } = cfg,
+        const { class: c, child_class, city, data } = cfg,
             component = createElement('div', {
                 class: c,
                 html: `<span class="main__name-city">${city}</span>`,
-                node: createBoxData(data)
+                node: createBoxData(data, child_class)
             });
         main_data.appendChild(component);
     });
 
-    main_data.appendChild(last_update);
     main.appendChild(main_data);
+    main.appendChild(last_update);
     return main;
 }
 
 function createTableData(data) {
-    const table = createElement('table', {
+    const div = createElement('div', {
             class: 'main__table-data',
+        }),
+        table = document.createElement('table'),
+        thead = createElement('thead', {
             html: `<tr>
                         <th>Stt</th>
                         <th>Thành phố</th>
@@ -69,6 +89,7 @@ function createTableData(data) {
                         <th>Số ca hồi phục</th>
                     </tr>`
         }),
+        tbody = document.createElement('tbody'),
         cities = Object.keys(data);
     for (let i = 1; i < cities.length; i++) {
         const city = cities[i],
@@ -78,19 +99,22 @@ function createTableData(data) {
             tr = document.createElement('tr');
         arr.forEach(item => {
             const td = createElement('td', {
-                text: object[key]
+                text: item
             });
             tr.appendChild(td);
         })
-        table.appendChild(tr);
+        tbody.appendChild(tr);
     }
-    return table;
+    table.appendChild(thead);
+    table.appendChild(tbody);
+    div.appendChild(table);
+    return div;
 }
 
-function createBoxData(data) {
+function createBoxData(data, child_class) {
     const { recovered, doubt, number, deaths } = data;
     return createElement('div', {
-        class: 'main__data-numberhn',
+        class: child_class,
         nodes: [
             createElement('div', {
                 class: 'main__infection-number box',
@@ -112,36 +136,43 @@ function createBoxData(data) {
     });
 }
 
-(function () {
-    const props = ['number', 'doubt', 'recovered', 'deaths'];
+function createIllustration() {
+    return createElement('div', {
+        class: 'main__mouse',
+        html: `<div class="main__mouse-icon"></div>
+                <p class="main__mouse-text">Cuộn xuống để xem dữ liệu các tỉnh thành</p>`,
+    });
+}
 
-    fetch('https://maps.vnpost.vn/app/api/democoronas/', {
-        method: 'GET',
-        redirect:'follow',
-        headers: {
-            'Accept': '*/*',
-            'Cache-Control': 'no-cache',
-            'Host': 'maps.vnpost.vn',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Connection': 'keep-alive'
-        }})
-        .then(response => {
-            if (response.status !== 200)
-            {
-                console.log(`Check your internet connection\nerror code: ${response.status}`);
-                return;
-            }
-            return response.json();
-        })
-        .then(d => {
-            data = summaryDataObj(d, 'address', {
-                props: props,
-                sum: props
-            });
-            initView(data, 'Hà Nội', d[d.length - 1]['date']);
-            console.log(data);
-        })
-        .catch(err => 
-            console.log('Request failed', err)
-        )
+function createSearch() {
+    return createElement('div', {
+        class: 'main__search',
+        html: `<form>
+                    <input type="text" name="search" id="search" placeholder="Nhập tên thành phố">
+                    <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 14.296 14.296"><path id="icons8-search_iOS_Glyph" data-name="icons8-search_iOS Glyph" d="M11.574,5.621a5.953,5.953,0,1,0,3.763,10.558l3.554,3.554a.6.6,0,1,0,.842-.842l-3.554-3.554a5.946,5.946,0,0,0-4.605-9.716Zm0,1.191a4.762,4.762,0,1,1-4.762,4.762A4.753,4.753,0,0,1,11.574,6.812Z" transform="translate(-5.621 -5.621)" fill="rgba(121,117,225,0.7)"></path>
+                        </svg>
+                    </i>
+                </form>`,
+    });
+}
+
+(function () {
+    // fetch('https://maps.vnpost.vn/app/api/democoronas/', {
+    // fetch('https://api.covid19api.com/country/vietnam', {
+    getData('api/statistics', {
+        method: 'GET'
+    })
+    .then(d => JSON.parse(d))
+    .then(d => {
+        const data = summaryArrayObj(d, 'address', {
+            props: props,
+            sum: props
+        });
+        initView(data, 'Hà Nội', d[d.length - 1]['date']);
+        // console.log(data);
+    })
+    .catch(err =>
+        console.log('Request failed', err)
+    )
 })();

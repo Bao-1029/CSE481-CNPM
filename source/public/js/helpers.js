@@ -110,6 +110,35 @@ export const subStr = (str, breakChar, fromStart = true, includeBreakChar = fals
 };
 
 /**
+ * Decodes utf-8 encoded string back into multi-byte Unicode characters.
+ *
+ * Can be achieved JavaScript by decodeURIComponent(escape(str)),
+ * but this approach may be useful in other languages.
+ *
+ * @param   {string} utf8String - UTF-8 string to be decoded back to Unicode.
+ * @returns {string} Decoded Unicode string.
+ * @see {@link https://gist.github.com/chrisveness/bcb00eb717e6382c5608}
+ */
+export const utf8Decode = function (utf8String) {
+    if (typeof utf8String != 'string') throw new TypeError('parameter ‘utf8String’ is not a string');
+    // note: decode 3-byte chars first as decoded 2-byte strings could appear to be 3-byte char!
+    const unicodeString = utf8String.replace(
+        /[\u00e0-\u00ef][\u0080-\u00bf][\u0080-\u00bf]/g, // 3-byte chars
+        function (c) { // (note parentheses for precedence)
+            var cc = ((c.charCodeAt(0) & 0x0f) << 12) | ((c.charCodeAt(1) & 0x3f) << 6) | (c.charCodeAt(2) & 0x3f);
+            return String.fromCharCode(cc);
+        }
+    ).replace(
+        /[\u00c0-\u00df][\u0080-\u00bf]/g, // 2-byte chars
+        function (c) { // (note parentheses for precedence)
+            var cc = (c.charCodeAt(0) & 0x1f) << 6 | c.charCodeAt(1) & 0x3f;
+            return String.fromCharCode(cc);
+        }
+    );
+    return unicodeString;
+}
+
+/**
  * Return lastest id in the array of string
  * @param {String[]} arr - array of string
  * @param {String} searchString
@@ -158,7 +187,7 @@ export const mandatory = () => { throw new Error('Misssing parameter'); };
             }
     }
  */
-export const summaryDataObj = function (json = mandatory(), key = mandatory(), config = mandatory()) {
+export const summaryArrayObj = function (json = mandatory(), key = mandatory(), config = mandatory()) {
     const result = {};
     json.forEach(item => {
         const k = item[key];
@@ -175,6 +204,24 @@ export const summaryDataObj = function (json = mandatory(), key = mandatory(), c
                 result[key][item] = result[key][item].reduce((total, crr) => total + crr, 0);
             });
         }
+    return result
+};
+
+/**
+ * Summary data of an array of object
+ * @param {object} data - objects
+ * @param {string[]} keys - array of key
+ * @return {object}
+ */
+export const totalizeObjs = function (data = mandatory(), keys) {
+    const result = {};
+    keys.map(k => result[k] = 0);
+    for (const key in data) {
+        const d = data[key];
+        keys.map(k => {
+            result[k] += d[k];
+        });
+    }
     return result
 };
 
@@ -321,15 +368,11 @@ export const sendData = function (input, init) {
 export const getData = function (input, init) {
     return fetch(input, init)
         .then(response => {
-            if (response.status == 500)
-                alert(`Check your internet connection\nerror code: ${response.status}`);
-            else if (response.error)
-                alert(response.error);
+            if (!response.ok)
+                alert(`${response.statusText}\nError code: ${response.status}`);
             return response.json();
         })
-        .then(json => {
-            return json.data
-        })
+        .then(json => json.data)
         .catch(err =>
             console.log('Request failed', err)
         );
@@ -385,4 +428,35 @@ export const childOfClosest = function (elem, parentSelector, selector) {
 export const childrentOfClosest = function (elem, parentSelector, selector) {
     const parent = getClosest(elem, parentSelector);
     return childrenMatches(parent, selector);
+};
+
+/**
+ * Filter element for input events
+ * @param {Element} parentNode
+ * @param {String} childTag
+ */
+export const filterElements = function(parentNode, childTag) {
+    const input = event.target.value.toUpperCase(),
+        item = parentNode.getElementsByTagName(childTag);
+    for (let i = 0; i < item.length; i++) {
+        const txtValue = item[i].textContent;
+        if (txtValue.toUpperCase().indexOf(input) > -1) {
+            item[i].style.display = "";
+        } else {
+            item[i].style.display = "none";
+        }
+    }
+};
+
+/**
+ * Smooth scroll to top
+ * @param {Number=} [smoothness = 8] default `8`
+ * @see {@link https://stackoverflow.com/a/48942924}
+ */
+export const scrollToTop = (smoothness = 8) => {
+    const y = document.documentElement.scrollTop || document.body.scrollTop;
+    if (y > 0) {
+        window.requestAnimationFrame(scrollToTop);
+        window.scrollTo(0, y - y / smoothness);
+    }
 };

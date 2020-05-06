@@ -4,15 +4,39 @@ import {
     sendData,
     getData,
     getClosest,
-    childrenMatches
+    childrenMatches,
+    filterElements
 } from './helpers.js';
 
-const btn_add = document.querySelector(),
-    table = document.querySelector('table tbody');
+const btn_add = document.querySelector('.main__add'),
+    table = document.querySelector('.main__table tbody');
 btn_add.onclick = () => alert('Dữ liệu đang được tải, xin chờ chút!');
 
+table.insertAdjacentHTML(
+    'beforeend', 
+    `<div class="main__icon-loading-hpl">
+        <div class="main__loading-hpl"></div>
+        <span class="main__text-loading-hpl">Đang tải...</span>
+    </div>`);
+document.getElementById('search').addEventListener('keyup', filterElements.bind(this, table, 'tr'));
+document.getElementById('btn-logout').addEventListener('click', logout);
+document.getElementById('item-logout').addEventListener('click', logout);
+
+function logout () {
+    fetch('user/logout', {
+            method: 'POST'
+        })
+        .then(response => {
+            if (response.status == 302)
+                window.location.replace('login');
+        })
+        .catch(err =>
+            console.log('Request failed', err)
+        );
+}
+
 function getHotlines() {
-    getData('api/hotline/all', {
+    return getData('hotline/all', {
             method: 'GET'
         }).catch(err =>
             console.log('Request failed', err)
@@ -24,26 +48,24 @@ function getHotlines() {
  * @param {String} action 
  * @param {String} method 
  * @param {FormData} formData 
- * @param {boolean} [FormData = false] default `false`
+ * @param {boolean} [isReturn = false] default `false`
  */
 function sendHotline(action = mandatory(), method = mandatory(), formData = mandatory(), isReturn = false) {
-    isReturn
-    ? sendData(`api/hotline/${action}`, {
+    return isReturn
+    ? sendData(`hotline/${action}`, {
             method: method,
             body: formData
         })
-    : getData(`api/hotline/${action}`, {
+    : getData(`hotline/${action}`, {
         method: method,
         body: formData
     })
 }
 
 function addHotline() {
-    const new_row = createTableRow(undefined, '', ''),
-        btn_edit = new_row.querySelector(''),
-        fragment = new DocumentFragment();
-    fragment.appendChild(new_row);
-    table.insertAdjacentElement('afterbegin', fragment);
+    const new_row = createTableRow({id: undefined, name: '', phone_number: ''}),
+        btn_edit = new_row.querySelector('.main__icon-edit');
+    table.insertAdjacentElement('afterbegin', new_row);
     btn_edit.click();
 }
 
@@ -54,8 +76,8 @@ function saveEdit(event) {
         td_phone,
         in_name,
         in_phone
-    } = event,
-        action = parent.querySelector('[role="data action"]'),
+    } = event.target,
+        action = parent.querySelectorAll('[role="data action"]'),
         id_row = parent.id_row,
         val_name = in_name.value,
         val_phone = in_phone.value;
@@ -63,43 +85,44 @@ function saveEdit(event) {
     data.set('name', val_name);
     data.set('phone_number', val_phone);
 
-    if (typeof parent.id_row) {
+    if (parent.id_row == undefined) {
         parent.id_row = sendHotline('add', 'POST', data, true);
     }
     else {
         data.set('id', id_row);
-        sendHotline('edit', 'PUT', data);
+        sendHotline('edit', 'POST', data);
     }
 
     td_name.textContent = val_name;
     td_phone.textContent = val_phone;
     action.forEach(a => a.remove());
-    parent.classList.remove('');
+    parent.classList.remove('edit');
 }
 
 function cancelEdit(event) {
-    const parent = event.parent;
-    if (typeof parent.id_row) {
+    const parent = event.target.parent;
+    // console.log("cancelEdit -> parent.id_row", parent.id_row);
+    if (parent.id_row == undefined) {
         parent.remove();
         return;
     }
     
-    const td_name = event.td_name,
-        td_phone = event.td_phone,
-        btns = parent.querySelector('[role="data action"]');
+    const { td_name, td_phone } = event.target,
+        btns = parent.querySelectorAll('[role="data action"]');
     td_name.querySelector('input').remove();
     td_phone.querySelector('input').remove();
     btns.forEach(btn => btn.remove());
-    parent.classList.remove('');
+    parent.classList.remove('edit');
 }
 
 function editHotline(event) {
+    // console.log("editHotline -> event", event);
     const tr = getClosest(event.target, 'tr'),
         // tds = childrenMatches(tr, 'td'),
         // elems = tds.map(td => td.matches('[data-type]')),
         // action = tds.map(td => td.matches('[role]')),
         action = childrenMatches(tr, '[role="actions"]')[0],
-        { td_name, td_phone } = event,
+        { td_name, td_phone } = event.target,
         // td_name = elems[findKey(data, obj => obj.hasOwnProperty('name'))],
         data = {
             /* ...elems.map(function (d) {
@@ -119,33 +142,37 @@ function editHotline(event) {
         }),
         in_phone = createElement('input', {
             value: phone_number
-        })
+        }),
         btn_save = createElement('button', {
             class: 'main__edit',
             text: 'Lưu',
             role: 'data action',
-            parent: tr,
-            td_name: td_name,
-            td_phone: td_phone,
-            in_name: in_name,
-            in_phone: in_phone,
+            props: {
+                parent: tr,
+                td_name: td_name,
+                td_phone: td_phone,
+                in_name: in_name,
+                in_phone: in_phone,
+            },
             events: {
-                click: saveEdit.bind(this, event)
+                click: saveEdit.bind(this)
             }
         }),
         btn_cancel = createElement('button', {
             class: 'main__delete',
             text: 'Hủy',
             role: 'data action',
-            parent: tr,
-            td_name: td_name,
-            td_phone: td_phone,
+            props: {
+                parent: tr,
+                td_name: td_name,
+                td_phone: td_phone,
+            },
             events: {
-                click: cancelEdit.bind(this, event)
+                click: cancelEdit.bind(this)
             }
         });
 
-    tr.classList.add('');
+    tr.classList.add('edit');
 
     fragment.appendChild(in_name);
     td_name.appendChild(fragment);
@@ -161,23 +188,23 @@ function editHotline(event) {
 function deleteHotline(event) {
     const parent = getClosest(event.target, 'tr'),
         id_row = parent.id_row;
-    if (typeof id_row) {
+    if (id_row == undefined) {
         parent.remove();
         return;
     }
     
-    const { td_name } = event,
+    const { td_name } = event.target,
         hostpital = td_name.textContent.trim();
 
     let data = new FormData();
     data.set('id', id_row);
 
     if (confirm(`Xóa dữ liệu về bệnh viện ${hostpital}`))
-        sendHotline('remove', 'DELETE', data);;
+        sendHotline('remove', 'POST', data);
 }
 
 function createTableRow(data) {
-    const { id,  name, phone_number } = data,
+    const { id, name, phone_number } = data,
         elem_name = createElement('td', {
             'data-type': 'name',
             text: name
@@ -187,18 +214,24 @@ function createTableRow(data) {
             text: phone_number
         }),
         btn_edit = createElement('button', {
-            class: '',
-            td_name: elem_name,
-            td_phone: elem_phone,
+            class: 'main__icon-edit',
+            role: 'row action',
+            props: {
+                td_name: elem_name,
+                td_phone: elem_phone,
+            },
             events: {
-                click: editHotline.bind(this, event)
+                click: editHotline.bind(this)
             }
         }),
         btn_delete = createElement('button', {
-            class: '',
-            td_name: elem_name,
+            class: 'main__icon-delete',
+            role: 'row action',
+            props: {
+                td_name: elem_name,
+            },
             events: {
-                click: deleteHotline.bind(this, event)
+                click: deleteHotline.bind(this)
             }
         }),
         elem_action = createElement('td', {
@@ -206,7 +239,9 @@ function createTableRow(data) {
             nodes: [btn_edit, btn_delete]
         }),
         tr = createElement('tr', {
-            id_row: id,
+            props: {
+                id_row: id,
+            },
             nodes: [elem_name, elem_phone, elem_action]
         });
     return tr;
@@ -214,12 +249,12 @@ function createTableRow(data) {
 
 async function initView() {
     const data = await getHotlines(),
-        table = document.querySelector('.main__table tbody'),
         fragment = new DocumentFragment();
     data.forEach(d => {
         const row = createTableRow(d);
         fragment.appendChild(row)
     });
+    document.querySelector('.main__icon-loading-hpl').remove();
     table.appendChild(fragment);
     btn_add.onclick = addHotline;
 }
