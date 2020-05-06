@@ -15,7 +15,7 @@ class User implements JsonSerializable
     /**
      * @var string
      */
-    private $username;
+    private $userName;
 
     /**
      * @var string
@@ -28,7 +28,7 @@ class User implements JsonSerializable
     private $level;
 
     /**
-     * @var bool
+     * @var int
      */
     private $status;
 
@@ -37,16 +37,16 @@ class User implements JsonSerializable
      * @param string    $username
      * @param string    $password
      * @param int       $level
-     * @param bool      $status
+     * @param int      $status
      */
-    public function __construct(int $id, string $username, string $password, int $level, bool $status)
+    /* public function __construct(int $id, string $username, string $password, int $level, bool $status)
     {
         $this->id = $id;
         $this->username = $username;
         $this->password = $password;
         $this->level = $level;
         $this->status = $status;
-    }
+    } */
 
     /**
      * @return int
@@ -59,9 +59,9 @@ class User implements JsonSerializable
     /**
      * @return string
      */
-    public function getUsername(): string
+    public function getUserName(): string
     {
-        return $this->username;
+        return $this->userName;
     }
 
     /**
@@ -81,9 +81,9 @@ class User implements JsonSerializable
     }
 
     /**
-     * @return bool
+     * @return int
      */
-    public function getStatus(): bool
+    public function getStatus(): int
     {
         return $this->status;
     }
@@ -95,7 +95,7 @@ class User implements JsonSerializable
     {
         return [
             'id' => $this->id,
-            'username' => $this->username,
+            'username' => $this->userName,
             'password' => $this->password,
             'level' => $this->level,
             'status' => $this->status,

@@ -13,8 +13,9 @@ class UserLoginAction extends UserAction {
      * {@inheritdoc}
      */
     protected function action(): Response {
-        $username = base64_decode((String) $this->resolveArg('username'));
-        $password = base64_decode((string) $this->resolveArg('password'));
+        $data = $this->request->getParsedBody();
+        $username = base64_decode((String) $data['username']);
+        $password = base64_decode((string) $data['password']);
         $user = $this->userRepository->findUser($username, $password);
 
         if ($user)
@@ -32,6 +33,6 @@ class UserLoginAction extends UserAction {
         else
             throw new UserNotFoundException();
 
-        return $this->response->withHeader('Location', 'dashboard')->withStatus(302);
+        return $this->response->withStatus(302);
     }
 }

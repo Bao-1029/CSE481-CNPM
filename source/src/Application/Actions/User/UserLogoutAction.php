@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Application\Actions\User;
 
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Psr7\Factory\ResponseFactory;
 
 class UserLogoutAction extends UserAction {
     /**
@@ -35,6 +36,7 @@ class UserLogoutAction extends UserAction {
             if (session_status() == PHP_SESSION_ACTIVE)
                 $this->session->destroy();
         }
-        return $this->response->withHeader('Location', 'login')->withStatus(302);
+
+        return $this->response->withStatus(302);
     }
 }

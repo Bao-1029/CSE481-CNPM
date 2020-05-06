@@ -10,16 +10,15 @@ use PDOException;
 
 class UserRepositoryService extends RepositoryService {
     private function QUERY_AN_USER() {
-        return 'SELECT * FROM ' . $this->db_name . '.news_detail WHERE userName = :userName AND password = :password';
+        return 'SELECT * FROM ' . $this->db_name . '.users WHERE userName = :userName';
     }
 
-    public function getUser(String $userName, String $password)
+    public function getUser(String $userName)
     {
         try {
             if ($stmt = $this->pdo->prepare($this->QUERY_AN_USER())) {
                 $stmt->setFetchMode(PDO::FETCH_CLASS, \App\Domain\User\User::class);
                 $stmt->bindParam(":userName", $userName, PDO::PARAM_STR, 25);
-                $stmt->bindParam(":password", $password, PDO::PARAM_STR);
 
                 if ($stmt->execute())
                     return $stmt->fetch();
