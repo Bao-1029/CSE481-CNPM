@@ -11,10 +11,6 @@ use PDO;
 
 class InMemoryHotlineRepository implements HotlineRepository
 {
-    /**
-     * @var User[]
-     */
-    private $users;
     private $service;
 
     public function __construct(ContainerInterface $c, PDO $pdo)
@@ -33,7 +29,7 @@ class InMemoryHotlineRepository implements HotlineRepository
     /**
      * {@inheritdoc}
      */
-    public function addHotline(String $name, String $phone_number)
+    public function addHotline(String $name, String $phone_number): String
     {
         return $this->service->insertHotline($name, $phone_number);
     }
@@ -41,7 +37,7 @@ class InMemoryHotlineRepository implements HotlineRepository
     /**
      * {@inheritdoc}
      */
-    public function editHotline(int $id, String $name, String $phone_number)
+    public function editHotline(int $id, String $name, String $phone_number): bool
     {
         return $this->service->updateHotline($id, $name, $phone_number);
     }
@@ -49,7 +45,7 @@ class InMemoryHotlineRepository implements HotlineRepository
     /**
      * {@inheritdoc}
      */
-    public function removeHotline(int $id)
+    public function removeHotline(int $id): bool
     {
         return $this->service->deleteHotline($id);
     }

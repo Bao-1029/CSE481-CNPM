@@ -13,10 +13,10 @@ interface HotlineRepository
     /**
      * @param String $username
      * @param String $password
-     * @return bool
+     * @return String id
      * @throws HotlineNotFoundException
      */
-    public function addHotline(String $name, String $phone_number): bool;
+    public function addHotline(String $name, String $phone_number): String;
 
     /**
      * @param int    $id

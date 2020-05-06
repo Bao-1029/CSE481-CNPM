@@ -10,7 +10,8 @@ class RemoveHotlineAction extends HotlineAction {
      * {@inheritdoc}
      */
     protected function action(): Response {
-        $id = (int) $this->resolveArg('id');
+        $data = $this->request->getParsedBody();
+        $id = (int) $data['id'];
         
         $result = $this->hotlineRepository->removeHotline($id);
         

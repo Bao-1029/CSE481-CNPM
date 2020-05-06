@@ -10,8 +10,9 @@ class AddHotlineAction extends HotlineAction {
      * {@inheritdoc}
      */
     protected function action(): Response {
-        $name = (String) $this->resolveArg('name');
-        $phone_number = (string) $this->resolveArg('phone_number');
+        $data = $this->request->getParsedBody();
+        $name = (String) $data['name'];
+        $phone_number = (string) $data['phone_number'];
 
         $result = $this->hotlineRepository->addHotline($name, $phone_number);
         

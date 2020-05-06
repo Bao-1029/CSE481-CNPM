@@ -5,9 +5,8 @@ namespace App\Application\Actions\Hotline;
 
 use App\Application\Actions\Action;
 use App\Domain\Hotline\HotlineRepository;
-use Error;
+use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
-use Slim\Exception\HttpUnauthorizedException;
 use SlimSession\Helper;
 
 abstract class HotlineAction extends Action {
@@ -25,8 +24,6 @@ abstract class HotlineAction extends Action {
     {
         parent::__construct($logger);
         $this->session = new Helper;
-        if (!$this->session->exists('userId'))
-            throw new HttpUnauthorizedException($this->request, 'Bạn phải đăng nhập để tiếp tục');
-        $this->newsRepository = $hotlineRepository;
+        $this->hotlineRepository = $hotlineRepository;
     }
 }

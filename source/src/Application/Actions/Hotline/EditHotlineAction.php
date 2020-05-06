@@ -10,9 +10,10 @@ class EditHotlineAction extends HotlineAction {
      * {@inheritdoc}
      */
     protected function action(): Response {
-        $id = (int) $this->resolveArg('id');
-        $name = (String) $this->resolveArg('name');
-        $phone_number = (string) $this->resolveArg('phone_number');
+        $data = $this->request->getParsedBody();
+        $id = (int) $data['id'];
+        $name = (String) $data['name'];
+        $phone_number = (string) $data['phone_number'];
 
         $result = $this->hotlineRepository->editHotline($id, $name, $phone_number);
         

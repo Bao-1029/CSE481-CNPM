@@ -16,7 +16,7 @@ class HotlineRepositoryService extends RepositoryService {
         return 'INSERT INTO ' . $this->db_name . '.hospital_hotlines VALUE (NULL, :name, :phone_number)';
     }
     private function UPDATE_QUERY() {
-        return 'UPDATE ' . $this->db_name . '.hospital_hotlines SET name = :name, phone_number = :phone_number) WHERE id = :id';
+        return 'UPDATE ' . $this->db_name . '.hospital_hotlines SET name = :name, phone_number = :phone_number WHERE id = :id';
     }
     private function DELETE_QUERY() {
         return 'DELETE FROM ' . $this->db_name . '.hospital_hotlines WHERE id = :id';
@@ -26,7 +26,7 @@ class HotlineRepositoryService extends RepositoryService {
     {
         try {
             if ($stmt = $this->pdo->prepare($this->QUERY_ALL())) {
-                $stmt->setFetchMode(PDO::FETCH_CLASS, \App\Domain\Hotline\Hotline::class);
+                $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
                 if ($stmt->execute())
                     return $stmt->fetchAll();
@@ -44,10 +44,9 @@ class HotlineRepositoryService extends RepositoryService {
                 $stmt->bindParam(":name", $name, PDO::PARAM_STR, 100);
                 $stmt->bindParam(":phone_number", $phone_number, PDO::PARAM_STR, 20);
 
-                if ($stmt->execute())
-                    return true;
+                $stmt->execute();
+                return $this->pdo->lastInsertId();
             }
-            return false;
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), 1);
         }
