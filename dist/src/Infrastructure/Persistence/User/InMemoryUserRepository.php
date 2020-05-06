@@ -6,6 +6,8 @@ namespace App\Infrastructure\Persistence\User;
 use App\Domain\User\User;
 use App\Domain\User\UserNotFoundException;
 use App\Domain\User\UserRepository;
+use Psr\Container\ContainerInterface;
+use PDO;
 
 class InMemoryUserRepository implements UserRepository
 {
@@ -13,21 +15,11 @@ class InMemoryUserRepository implements UserRepository
      * @var User[]
      */
     private $users;
+    private $service;
 
-    /**
-     * InMemoryUserRepository constructor.
-     *
-     * @param array|null $users
-     */
-    public function __construct(array $users = null)
+    public function __construct(ContainerInterface $c, PDO $pdo)
     {
-        $this->users = $users ?? [
-            1 => new User(1, 'bill.gates', 'Bill', 'Gates'),
-            2 => new User(2, 'steve.jobs', 'Steve', 'Jobs'),
-            3 => new User(3, 'mark.zuckerberg', 'Mark', 'Zuckerberg'),
-            4 => new User(4, 'evan.spiegel', 'Evan', 'Spiegel'),
-            5 => new User(5, 'jack.dorsey', 'Jack', 'Dorsey'),
-        ];
+        $this->service = new UserRepositoryService($pdo, $c->get('database')['dbname']);
     }
 
     /**
@@ -48,5 +40,13 @@ class InMemoryUserRepository implements UserRepository
         }
 
         return $this->users[$id];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findUser(String $username, String $password): User
+    {
+        return $this->service->getUser($username, $password);
     }
 }

@@ -18,6 +18,7 @@ return function (ContainerBuilder $containerBuilder) {
         'storage' => [
             'news_path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../storage/news',
             'config' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../config/newsSerivce.ini',
+            'statistics' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../storage/statistics',
         ],
         'database' => [
             'host' => 'localhost',
@@ -28,7 +29,8 @@ return function (ContainerBuilder $containerBuilder) {
         ],
         'resources' => [
             'template' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../resources/templates',
-            'views' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../resources/views',
+            'views' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../resources/views/public',
+            'views_admin' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../resources/views/admin',
         ],
         'page_meta_data' => [
             'home' => [
@@ -46,6 +48,14 @@ return function (ContainerBuilder $containerBuilder) {
             'precaution' => [
                 'title' => 'Cách phòng tránh | Việt Nam - Coronavirus',
                 'page' => 'precaution',
+            ],
+            'login' => [
+                'title' => 'Đăng nhập | Việt Nam - Coronavirus',
+                'page' => 'login',
+            ],
+            'dashboard' => [
+                'title' => 'Bảng điều khiển | Việt Nam - Coronavirus',
+                'page' => 'dashboard',
             ],
         ]
     ]);

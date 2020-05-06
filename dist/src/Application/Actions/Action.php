@@ -114,6 +114,8 @@ abstract class Action
     protected function respond(ActionPayload $payload): Response
     {
         $json = json_encode($payload, JSON_PRETTY_PRINT);
+        // if (!$json)
+        // $json = json_last_error_msg();
         $this->response->getBody()->write($json);
         return $this->response->withHeader('Content-Type', 'application/json');
     }

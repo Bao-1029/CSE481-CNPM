@@ -44,14 +44,14 @@ class NewsRepositoryService extends RepositoryService {
     {
         try {
             $stmt = $this->pdo->query($this->GET_QUERY());
-            $news = $stmt->fetchAll(PDO::FETCH_CLASS, \App\Domain\News\News::class);
-            return $news[0]->title ? $news[0]->title : '';
+            $news = array_values($stmt->fetch(PDO::FETCH_ASSOC))[0];
+            return $news ? $news : '';
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), 1);
         }
     }
 
-    public function getTotalNumberOfNews()
+    public function getTotalNumberOfNews(): int
     {
         try {
             $stmt = $this->pdo->query($this->COUNT_QUERY());
@@ -66,7 +66,7 @@ class NewsRepositoryService extends RepositoryService {
     {
         try {
             if ($stmt = $this->pdo->prepare($this->SELECT_QUERY())) {
-                $stmt->setFetchMode(PDO::FETCH_CLASS, \App\Domain\News\News::class);
+                $stmt->setFetchMode(PDO::FETCH_ASSOC);
                 $stmt->bindParam(":offset", $offset, PDO::PARAM_INT);
                 $stmt->bindParam(":limt", $limt, PDO::PARAM_INT);
 

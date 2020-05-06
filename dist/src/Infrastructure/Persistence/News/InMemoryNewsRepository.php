@@ -63,7 +63,7 @@ class InMemoryNewsRepository implements NewsRepository {
         try {
             $headlines = $this->getHeadlines();
             $newsList = $this->getNewsByPagiation(1);
-            return array_merge($headlines, ['news' => $newsList]);
+            return array_merge(['headlines' => $headlines], ['news' => $newsList]);
         } catch (Exception $e) {
             throw new NewsNotFoundException("Error Processing Request", 1);
         }

@@ -63,7 +63,10 @@ $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
 $shutdownHandler = new ShutdownHandler($request, $errorHandler, $displayErrorDetails);
 register_shutdown_function($shutdownHandler);
 
-$app->add(\App\Application\Middleware\CorsMiddleware::class);
+$app->add(new \Slim\Middleware\Session([
+	'autorefresh' => true,
+	'lifetime' => '1 hour'
+]));
 
 // Add Routing Middleware
 $app->addRoutingMiddleware();
@@ -76,42 +79,4 @@ $errorMiddleware->setDefaultErrorHandler($errorHandler);
 $response = $app->handle($request);
 $responseEmitter = new ResponseEmitter();
 $responseEmitter->emit($response);
-
-/*
-use Goutte\Client;
-use Symfony\Component\DomCrawler\Crawler;
-
-$crawler;
-$result = [];
-
-$client = new Client();
-
- $crawler = $client->request('GET', 'https://news.google.com/topics/CAAqKAgKIiJDQkFTRXdvTkwyY3ZNVEZtY2pFMWRERTFhQklDZG1rb0FBUAE?hl=vi&gl=VN&ceid=VN%3Avi');
-$baseHref = $crawler->getBaseHref();
-
-$crawler->filter('.xrnccd .Cc0Z5d')->each(function (Crawler $node) {
-	global $result;
-	global $baseHref;
-	$children = $node->children();
-	$title = $children->children('.DY5T1d')->text();
-	$link = $baseHref . substr($children->children('.DY5T1d')->attr('href'), 2);
-	$source = $children->children('[jsname="Hn1wIf"] .wEwyrc')->text();
-	$item = array(
-		'title' => $title,
-		'link'  => $link,
-		'source' => $source
-	);
-	array_push($result, $item);
-});
-
-// var_dump($crawler);
-var_dump($result); 
-
-
-$crawler = $client->request('GET', 'https://ncov.moh.gov.vn/dong-thoi-gian', [], [], ['verify' => 'false']);
-$this->crawler->filter('.timeline-sec .timeline-content')->each(function (Crawler $node) {
-	array_push($this->result, $node->text());
-});
-var_dump($result);
-*/
 ?>

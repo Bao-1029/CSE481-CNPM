@@ -17,6 +17,7 @@ namespace App\Utils\Ncov;
  */
 
 use App\Utils\CrawlData;
+use Exception;
 use Symfony\Component\DomCrawler\Crawler;
 
 class CrawlGoogleNews extends CrawlData {
@@ -28,17 +29,47 @@ class CrawlGoogleNews extends CrawlData {
     public function extractData()
     {
         $this->crawler->filter('.xrnccd .Cc0Z5d')->each(function (Crawler $node) {
-            $previous = $node->previousAll();
+            $parents = $node->parents();
             $children = $node->children();
             $title = $children->children('.DY5T1d')->text();
             $link = $this->baseHref . substr($children->children('.DY5T1d')->attr('href'), 2);
             $source = $children->children('[jsname="Hn1wIf"] .wEwyrc')->text();
-            $img = $previous->getNode(0) ? $previous->children()->children('img.QwxBBf') : null;
-            $imgUri = $img ? $img->attr('src') : '';
+            $a = $parents->previousAll();
+            if ($a->getNode(0))
+            {
+                $figure = $a->children();
+                $img = $figure->children('img.QwxBBf');
+                $imgUri = $img ? $img->attr('src') : '';
+            } else
+                $imgUri = '';
+            /*
+             * Error: Malformed UTF-8 characters, possibly incorrectly encoded
+             * https://stackoverflow.com/questions/50610990/php-json-encode-is-getting-malformed-utf-8-characters-possibly-incorrectly-e
+             
+            $this->encoding = mb_detect_encoding($title, self::$encoding_list, true);
             $item = array(
-                'title' => $title,
+                'title' => mb_convert_encoding($title, 'UTF-8', $this->encoding),
                 'link'  => $link,
-                'source' => $source,
+                'source' => mb_convert_encoding($source, 'UTF-8', $this->encoding),
+                'imgUri' => $imgUri
+            );
+            */
+            // https://stackoverflow.com/a/29667430
+            // try {
+            //     $item = array(
+            //         'title' => iconv(mb_detect_encoding($title, mb_detect_order(), false), 'UTF-8//IGNORE', $title),
+            //         'link'  => $link,
+            //         'source' => iconv(mb_detect_encoding($source, mb_detect_order(), false), 'UTF-8//IGNORE', $source),
+            //         'imgUri' => $imgUri
+            //     );
+            //     array_push($this->result, $item);
+            // } catch (Exception $e) {
+
+            // }
+            $item = array(
+                'title' => utf8_encode($title),
+                'link'  => $link,
+                'source' => utf8_encode($source),
                 'imgUri' => $imgUri
             );
             array_push($this->result, $item);

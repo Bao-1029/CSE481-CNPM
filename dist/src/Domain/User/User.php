@@ -8,43 +8,50 @@ use JsonSerializable;
 class User implements JsonSerializable
 {
     /**
-     * @var int|null
+     * @var int
      */
     private $id;
 
     /**
      * @var string
      */
-    private $username;
+    private $userName;
 
     /**
      * @var string
      */
-    private $firstName;
+    private $password;
 
     /**
-     * @var string
+     * @var int
      */
-    private $lastName;
+    private $level;
 
     /**
-     * @param int|null  $id
+     * @var int
+     */
+    private $status;
+
+    /**
+     * @param int  $id
      * @param string    $username
-     * @param string    $firstName
-     * @param string    $lastName
+     * @param string    $password
+     * @param int       $level
+     * @param int      $status
      */
-    public function __construct(?int $id, string $username, string $firstName, string $lastName)
+    /* public function __construct(int $id, string $username, string $password, int $level, bool $status)
     {
         $this->id = $id;
-        $this->username = strtolower($username);
-        $this->firstName = ucfirst($firstName);
-        $this->lastName = ucfirst($lastName);
-    }
+        $this->username = $username;
+        $this->password = $password;
+        $this->level = $level;
+        $this->status = $status;
+    } */
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -52,25 +59,33 @@ class User implements JsonSerializable
     /**
      * @return string
      */
-    public function getUsername(): string
+    public function getUserName(): string
     {
-        return $this->username;
+        return $this->userName;
     }
 
     /**
      * @return string
      */
-    public function getFirstName(): string
+    public function getPassword(): string
     {
-        return $this->firstName;
+        return $this->password;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getLastName(): string
+    public function getLevel(): int
     {
-        return $this->lastName;
+        return $this->level;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return $this->status;
     }
 
     /**
@@ -80,9 +95,10 @@ class User implements JsonSerializable
     {
         return [
             'id' => $this->id,
-            'username' => $this->username,
-            'firstName' => $this->firstName,
-            'lastName' => $this->lastName,
+            'username' => $this->userName,
+            'password' => $this->password,
+            'level' => $this->level,
+            'status' => $this->status,
         ];
     }
 }

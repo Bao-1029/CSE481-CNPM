@@ -8,6 +8,21 @@ abstract class CrawlData {
     public $result = [];
     protected $href;
     protected $baseHref;
+    protected $encoding;
+    protected static $encoding_list = [
+        "UTF-8",
+        "UTF-7",
+        "UTF-16",
+        "UTF-32",
+        "ISO-8859-16",
+        "ISO-8859-15",
+        "ISO-8859-10",
+        "ISO-8859-1",
+        "Windows-1254",
+        "Windows-1252",
+        "Windows-1251",
+        "ASCII",
+    ];
 
     public function __construct()
     {

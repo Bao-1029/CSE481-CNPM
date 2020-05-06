@@ -10,7 +10,7 @@ class AllNewsAction extends NewsAction {
      * {@inheritdoc}
      */
     protected function action(): Response {
-        $news = $this->newsRepository->getNews();        
+        $news = $this->newsRepository->getNews();
         return $this->respondWithData($news);
     }
 }
