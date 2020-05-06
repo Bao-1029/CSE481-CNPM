@@ -24,7 +24,7 @@ return function (ContainerBuilder $containerBuilder) {
             'host' => 'localhost',
             'dbname' => 'id13393536_cnpm_coronavirus',
             'user' => 'id13393536_root',
-            'password' => 'N#f9VKsI)<Ztf6?Q',
+            'password' => '<Z)f4WG2-t9w]&gj',
             'charset' => 'utf8mb4',
         ],
         'resources' => [
