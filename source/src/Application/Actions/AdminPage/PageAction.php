@@ -27,10 +27,6 @@ abstract class PageAction extends Action {
     public function __construct(LoggerInterface $logger, ContainerInterface $c)
     {
         $this->session = new Helper;
-        if (!$this->session->exists('userId')) {
-            $this->redirectToLogin();
-        }
-
         try {
             $this->response = new Response();
             $this->meta = $c->get('page_meta_data');
@@ -42,10 +38,5 @@ abstract class PageAction extends Action {
         } catch (RuntimeException $e) {
             $this->logger->error('Template might not exist\nError: ' . $e->getMessage());
         }
-    }
-
-    private function redirectToLogin(): Response {
-        $this->response = new Response();
-        return $this->response->withHeader('Location', 'login')->withStatus(302);
     }
 }

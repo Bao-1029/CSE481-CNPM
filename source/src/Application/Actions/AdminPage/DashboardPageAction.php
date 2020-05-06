@@ -13,7 +13,8 @@ class DashboardPageAction extends PageAction {
      */
     protected function action(): Response {
         try {
-            return $this->renderer->render($this->response, 'dashboard.php', $this->meta['dashboard']);
+            $data = $this->meta['dashboard'] + ['account' => $this->session->get('username')];
+            return $this->renderer->render($this->response, 'dashboard.php', $data);
         } catch (RuntimeException $e) {
             $this->logger->error('Template might not exist\nError: ' . $e->getMessage());
         } catch (InvalidArgumentException $e) {
