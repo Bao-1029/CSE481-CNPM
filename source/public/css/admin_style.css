@@ -19,6 +19,8 @@ input {
     text-align: center;
 }
 
+button { background-color: inherit; }
+
 .header {
     position: relative;
     max-width: 1166px;

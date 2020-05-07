@@ -48,6 +48,12 @@
   color: #7992A7;
 }
 
+.main__featured-news a:hover,
+.main__related-content a:hover,
+.main__recent-content a:hover {
+  text-decoration: underline;
+}
+
 .main__featured-news span {
   display: block;
   text-align: right;
