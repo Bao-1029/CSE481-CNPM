@@ -1,5 +1,5 @@
 <footer class="footer">
-    <p>A project by 59Th2 | Thuy Loi University</p>
+    A project by 59Th2 | Thuy Loi University
 </footer>
 
 <script src="js/common.min.js" type="module"></script>
