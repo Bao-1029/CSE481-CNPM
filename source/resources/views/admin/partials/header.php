@@ -6,7 +6,7 @@
     <?php if ($page != 'login'): ?>
     <div class="header__menu">
         <svg class="header__icon-bar" fill="#003560" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 6h-24v-4h24v4zm0 4h-24v4h24v-4zm0 8h-24v4h24v-4z"/></svg>
-        <ul class="header__menu-content">
+        <ul class="header__menu-content" id="menu">
             <li class="header__item">Quản lý</li>
             <li class="header__item active"><a href="." class="header__menu-text">Đường dây nóng</a></li>
             <li class="header__item"><a href="https://docs.google.com/forms/d/1viZUBuT2cEf8BNCwWF4uXH4jZx-KUDkTQ8dReCvi89U/edit" class="header__menu-text">Câu hỏi trắc nghiệm</a></li>

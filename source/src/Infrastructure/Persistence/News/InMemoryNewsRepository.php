@@ -121,15 +121,12 @@ class InMemoryNewsRepository implements NewsRepository {
             $lastTitle = $this->service->getLatestTitleNews();
             foreach ($this->newsList as $key => $value) {
                 if ($value['title'] != $lastTitle)
-                    if (!$this->service->insertNews(
+                    $this->service->insertNews(
                         $value['title'],
                         $value['link'],
                         $value['source'],
                         $value['imgUri']
-                    ))
-                        break;
-                    else
-                        break;
+                    );
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage(), 1);

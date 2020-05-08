@@ -322,14 +322,14 @@
     }
 
     .main__data-hn {
-        max-width: 380px;
+        max-width: 100%; /* 380px */
         margin: auto;
     }
 
     .main__data-vn {
-        max-width: 380px;
+        max-width: 100%; /* 380px */
         margin: auto;
-        margin-top: 20px;
+        margin-top: 50px;
     }
 
     .main__data-numbervn {
@@ -390,25 +390,22 @@
     }
 
     .main__table-data {
-        max-width: 380px;
-        border-radius: 20px;
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        border-radius: 0;
+        overflow: scroll;
     }
 
     .main__table-data table {
         border: none;
+        border-radius: 0;
+        overflow: scroll;
     }
 
     .main__table-data table tr {
         font-size: 14px;
         border: none;
-    }
-
-    .main__table-data table th:nth-child(1) {
-        border-top-left-radius: 20px;
-    }
-
-    .main__table-data table th:nth-child(6) {
-        border-top-right-radius: 20px;
     }
 }
 

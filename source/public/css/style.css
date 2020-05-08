@@ -97,7 +97,6 @@ body {
 }
 
 .header__menu-list--active {
-  background: #efefef;
   -webkit-box-shadow: -3px -3px 15px #ffffff, 3px 3px 15px #DFC2C2;
           box-shadow: -3px -3px 15px #ffffff, 3px 3px 15px #DFC2C2;
 }
@@ -161,7 +160,7 @@ body {
   text-transform: uppercase;
   font-size: 10px;
   position: absolute;
-  top: 70%;
+  top: 72%;
   left: 50%;
   -webkit-transform: translate(-35px, -50px);
   transform: translate(-35px, -50px);
