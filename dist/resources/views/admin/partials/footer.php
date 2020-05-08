@@ -4,9 +4,9 @@
 
 <?php switch ($page):
     case 'login': ?>
-        <script src="js/login.min.js"></script>
+        <script src="js/login.js"></script>
     <?php
         break;
     case 'dashboard': ?>
-        <script src="js/hotlines.min.js" type="module"></script>
+        <script src="js/hotlines.js" type="module"></script>
 <?php endswitch; ?>
