@@ -19,7 +19,12 @@ class AuthMiddleware implements Middleware
     public function process(Request $request, RequestHandler $handler): Response
     {
         $session = new Helper;
-        if ($request->getMethod() != 'GET' && !$session->exists('userId')) {
+        if ($request->getRequestTarget() == '/dashboard' && !$session->exists('userId')) {
+            $response = new Psr7Response();
+            return $response->withHeader('Location', 'login');
+            // throw new HttpUnauthorizedException($this->request);
+        }
+        if ($request->getMethod() != 'GET' && !$session->exists('userId')) {   
             $response = new Psr7Response();
             return $response->withHeader('Location', 'login');
             // throw new HttpUnauthorizedException($this->request);
