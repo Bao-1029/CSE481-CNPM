@@ -53,7 +53,7 @@ class User implements JsonSerializable
      */
     public function getId(): int
     {
-        return $this->id;
+        return (int) $this->id;
     }
 
     /**
@@ -77,7 +77,7 @@ class User implements JsonSerializable
      */
     public function getLevel(): int
     {
-        return $this->level;
+        return (int) $this->level;
     }
 
     /**
@@ -85,7 +85,7 @@ class User implements JsonSerializable
      */
     public function getStatus(): int
     {
-        return $this->status;
+        return (int) $this->status;
     }
 
     /**

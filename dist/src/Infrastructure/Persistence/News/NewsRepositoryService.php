@@ -55,7 +55,7 @@ class NewsRepositoryService extends RepositoryService {
     {
         try {
             $stmt = $this->pdo->query($this->COUNT_QUERY());
-            $num = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+            $num = (int) $stmt->fetch(PDO::FETCH_ASSOC)['total'];
             return $num;
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), 1);

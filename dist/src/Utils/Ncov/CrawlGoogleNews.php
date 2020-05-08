@@ -45,6 +45,7 @@ class CrawlGoogleNews extends CrawlData {
             /*
              * Error: Malformed UTF-8 characters, possibly incorrectly encoded
              * https://stackoverflow.com/questions/50610990/php-json-encode-is-getting-malformed-utf-8-characters-possibly-incorrectly-e
+             * RESOL
              
             $this->encoding = mb_detect_encoding($title, self::$encoding_list, true);
             $item = array(
@@ -66,10 +67,17 @@ class CrawlGoogleNews extends CrawlData {
             // } catch (Exception $e) {
 
             // }
-            $item = array(
+            /* $item = array(
                 'title' => utf8_encode($title),
                 'link'  => $link,
                 'source' => utf8_encode($source),
+                'imgUri' => $imgUri
+            );
+            array_push($this->result, $item); */
+            $item = array(
+                'title' => $title,
+                'link'  => $link,
+                'source' => $source,
                 'imgUri' => $imgUri
             );
             array_push($this->result, $item);
