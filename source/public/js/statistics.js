@@ -7,7 +7,7 @@ import {
     filterElements
 } from './helpers.js';
 
-const props = ['number', 'doubt', 'recovered', 'deaths'];
+const props = ['number', 'active', 'recovered', 'deaths'];
 
 function initView(data, currentGeo, lastUpdate) {
     const main = document.querySelector('.main'),
@@ -85,7 +85,7 @@ function createTableData(data) {
                         <th>Thành phố</th>
                         <th>Số ca nhiễm</th>
                         <th>Số ca tử vong</th>
-                        <th>Số ca nghi nhiễm</th>
+                        <th>Số ca dương tính</th>
                         <th>Số ca hồi phục</th>
                     </tr>`
         }),
@@ -94,8 +94,8 @@ function createTableData(data) {
     for (let i = 1; i < cities.length; i++) {
         const city = cities[i],
             d = data[city],
-            { recovered, doubt, number, deaths } = d,
-            arr = [i, city, number, deaths, doubt, recovered],
+            { recovered, active, number, deaths } = d,
+            arr = [i, city, number, deaths, active, recovered],
             tr = document.createElement('tr');
         arr.forEach(item => {
             const td = createElement('td', {
@@ -112,7 +112,7 @@ function createTableData(data) {
 }
 
 function createBoxData(data, child_class) {
-    const { recovered, doubt, number, deaths } = data;
+    const { recovered, active, number, deaths } = data;
     return createElement('div', {
         class: child_class,
         nodes: [
@@ -122,7 +122,7 @@ function createBoxData(data, child_class) {
             }),
             createElement('div', {
                 class: 'main__doubt-number box',
-                html: `<span>${doubt}</span><p>Ca nghi nhiễm</p>`
+                html: `<span>${active}</span><p>Ca dương tính</p>`
             }),
             createElement('div', {
                 class: 'main__die-number box',
@@ -164,12 +164,12 @@ function createSearch() {
         method: 'GET'
     })
     .then(d => JSON.parse(d))
-    .then(d => {
-        const data = summaryArrayObj(d, 'address', {
+    .then(result => {
+        const data = summaryArrayObj(result, 'address', {
             props: props,
             sum: props
         });
-        initView(data, 'Hà Nội', d[d.length - 1]['date']);
+        initView(data, 'Hà Nội', result[result.length - 1]['date']);
         // console.log(data);
     })
     .catch(err =>

@@ -9,7 +9,8 @@ import {
 } from './helpers.js';
 
 const btn_add = document.querySelector('.main__add'),
-    table = document.querySelector('.main__table tbody');
+    table = document.querySelector('.main__table tbody'),
+    menu = document.getElementById('menu');
 btn_add.onclick = () => alert('Dữ liệu đang được tải, xin chờ chút!');
 
 table.insertAdjacentHTML(
@@ -21,6 +22,12 @@ table.insertAdjacentHTML(
 document.getElementById('search').addEventListener('keyup', filterElements.bind(this, table, 'tr'));
 document.getElementById('btn-logout').addEventListener('click', logout);
 document.getElementById('item-logout').addEventListener('click', logout);
+document.querySelector('.header__icon-bar').addEventListener('click', function () {
+    menu.style.width = "100%";
+});
+document.getElementById('close-menu').addEventListener('click', function () {
+    menu.removeAttribute("style");
+});
 
 function logout () {
     fetch('user/logout', {
@@ -79,18 +86,32 @@ function saveEdit(event) {
     } = event.target,
         action = parent.querySelectorAll('[role="data action"]'),
         id_row = parent.id_row,
-        val_name = in_name.value,
-        val_phone = in_phone.value;
+        val_name = in_name.value.trim(),
+        val_phone = in_phone.value.trim();
+
+    if (val_name.length < 1 || val_phone.length < 1) {
+        alert('Thông tin phải được điền đầy đủ!');
+        return;
+    }
+    if (/^\d{4}[-. ]?\d{3}[-. ]?\d{3}$/.test(val_phone) == false) {
+        alert('Định dạng số điện thoại bị sai!');
+        return;
+    }
+    
     let data = new FormData();
     data.set('name', val_name);
     data.set('phone_number', val_phone);
 
     if (parent.id_row == undefined) {
-        parent.id_row = sendHotline('add', 'POST', data, true);
+        sendHotline('add', 'POST', data, true).then(response => {
+            response.data ? (parent.id_row = response.data) : alert('Có lỗi ở máy chủ');
+        });
     }
     else {
         data.set('id', id_row);
-        sendHotline('edit', 'POST', data);
+        sendHotline('edit', 'POST', data).then(response => {
+            if (!response) alert('Có lỗi ở máy chủ');
+        });
     }
 
     td_name.textContent = val_name;
@@ -141,6 +162,8 @@ function editHotline(event) {
             value: name
         }),
         in_phone = createElement('input', {
+            type: 'tel',
+            pattern: '^\d{4}[-. ]?\d{3}[-. ]?\d{3}$',
             value: phone_number
         }),
         btn_save = createElement('button', {
@@ -199,8 +222,13 @@ function deleteHotline(event) {
     let data = new FormData();
     data.set('id', id_row);
 
+    let r;
     if (confirm(`Xóa dữ liệu về bệnh viện ${hostpital}`))
-        sendHotline('remove', 'POST', data);
+        sendHotline('remove', 'POST', data, true)
+            .then(response => {
+                response.data ? parent.remove() : alert('Có lỗi ở máy chủ');
+            });
+        
 }
 
 function createTableRow(data) {

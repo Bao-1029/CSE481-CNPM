@@ -351,9 +351,9 @@ export const sendData = function (input, init) {
                 alert(`Check your internet connection\nerror code: ${response.status}`);
             else if (response.error)
                 alert(response.error);
-            return response.text();
+            return response.json();
         })
-        .then(text => alert(text))
+        // .then(json => alert(json))
         .catch(err =>
             console.log('Request failed', err)
         );
