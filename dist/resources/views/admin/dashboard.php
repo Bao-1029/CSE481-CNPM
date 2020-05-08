@@ -3,7 +3,7 @@
         <h2 class="main__title">Danh sách đường dây nóng của các bệnh viện</h2>
         <div class="main__search">
             <form>
-                <input type="text" name="search" id="search" placeholder="Tên bệnh viện hoặc sđt">
+                <input type="text" name="search" id="search" placeholder=" Nhập tên tỉnh" required>
                 <i>
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="15" height="15" viewBox="0 0 15 15">
                         <defs>
