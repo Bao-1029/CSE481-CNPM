@@ -132,9 +132,12 @@
   font-size: 18px;
   color: #7992A7;
   overflow: hidden;
-  white-space: wrap;
+  line-clamp: 4;
+  -webkit-line-clamp: 4;
+  box-orient: vertical;
+  -webkit-box-orient: vertical;
   text-overflow: ellipsis;
-  display: block;
+  display: -webkit-box;
 }
 
 .main__more {
